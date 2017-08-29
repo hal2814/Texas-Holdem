@@ -80,32 +80,18 @@ Card.prototype.isOnTable = function (draw) {
 //requires isOnTable() function
 //draw will draw 2 random numbers suit(1,4),number(2,14) if draw
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
-var numMinDraw=2;
-var numMaxDraw=15;
-var myDrawNumber = 0;
-var myDrawNumberIndex =0;
-var myDrawNumberIndex2 =0;
-var suitMin=1;
-var suitMax=5;
-var mySuitNumber =0;
-var mySuitNumberIndex;
-var mySuitNumberIndex2;
-var generatedArray = [];
-// var theCurrentDraw;
-function draw(numMinDraw,numMaxDraw, suitMin,suitMax){
-  // var min = Math.ceil(numMinDraw);
-  // var max = Math.floor(numMaxDraw);
-  myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
-  myDrawNumberIndex = cardNum[myDrawNumber-2];
-  myDrawNumberIndex2 = face[myDrawNumber-2];
-  mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
-  mySuitNumberIndex = suitNum[mySuitNumber-1];
-  mySuitNumberIndex2 = suit[mySuitNumber-1];
-  console.log(myDrawNumberIndex);
-  console.log(mySuitNumberIndex);
-  generatedArray.push([myDrawNumberIndex,mySuitNumberIndex]);
-  console.log(generatedArray);
+// var numMinDraw=2;
+// var numMaxDraw=15;
 
+function draw(){
+
+  var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  var myDrawNumberIndex = cardNum[myDrawNumber-2];
+  var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
+  var mySuitNumberIndex = suitNum[mySuitNumber-1];
+  var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
+  console.log(generatedArray);
+  return generatedArray;
 }
 
 
@@ -193,14 +179,14 @@ $(document).ready(function() {
 
 
 
-    draw(numMinDraw,numMaxDraw, suitMin,suitMax);
+    draw();
 
-    currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
-    console.log(currentCard);
-    currentCard.isOnTable();
-
-    cardOnTable.push(currentCard);
-    console.log(cardOnTable);
+    // // currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
+    // console.log(currentCard);
+    // currentCard.isOnTable();
+    //
+    // cardOnTable.push(currentCard);
+    // console.log(cardOnTable);
 
   });
 });
