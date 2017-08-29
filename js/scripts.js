@@ -47,6 +47,11 @@ function isOnTable(draw){
  //card prototype - function draw(){
   //var array = [(1,4),(2,14)]
   //return array
+function draw(){
+  var array = [];
+  array.push(Math.floor((Math.random()*14)+2));
+  array.push(Math.floor((Math.random()*4)+1));
+  return array;
 }
 
 //nate
@@ -96,6 +101,16 @@ function winning(player){
 }
 
 
+//used to count items in the array (aka see how many times a certain card appears in an array for pair, 3 of a kind, etc.)
+function countInArray(array, item) {
+    var count = 0;
+    for (var i = 0; i < array.length; ++i) {
+        if (array[i] === item) {
+            count +=1;
+        }
+    }
+    return count;
+}
 //functions needed for winning() function:
 //need 2 value outputs: priority, card values
 //all winning conditions return value based on priority, and output a phrase (example: "You have 2 pair")
@@ -119,27 +134,37 @@ function winning(player){
 
 //3 of a kind-easy (or pair/three/four of a kind) returns priority value as an integer
 //returns a 0 if none of these conditions are found
-Player.prototype.twoThreeFour = function () {
-  var currentCard;
-  var cardsThatMatchCount = 1;
+Player.prototype.matchArray = function () {
+  var cardCount = 0;
+  var matchArray =[];
   for(var i=0;i<this.totalHand.length;++i){
-    currentCard = this.totalHand[i];
-    for(var j=0;j<this.totalHand.length;++j){
-      if(currentCard === this.totalHand[j] && j!==i){
-        cardsThatMatchCount +=1;
-      }
+    cardCount = countInArray(this.totalHand,totalHand[i]);
+    if(cardCount >1){
+      matchArray.push(cardCount);
     }
   }
-  //needs to differentiate bewteen 2 pair, and 4 of the same
-  if(cardsThatMatchCount ===4){
+  return matchArray.sort();
+};
+
+
+//takes matchArray function as arg
+Player.prototype.= function (matchArray) {
+  matchArray.sort();
+  if(matchArray===[4]){
+    alert("Four of a kind");
     return 8;
-    //alert("Four of a kind");
-  }else if(cardsThatMatchCount===3){
+  }else if(matchArray===[2,3]){
+    alert("Full House");
+    return 7;
+  }else if(matchArray===[3]){
+    alert("Three of a kind");
     return 4;
-    //alert("Three of a kind");
-  }else if(cardsThatMatchCount===2){
+  }else if(matchArray===[2,2] || matchArray===[2,2,2]){
+    alert("Two Pair");
+    return 3;
+  }else if(matchArray===[2]){
+    alert("One Pair");
     return 2;
-    //alert("Pair")
   }
 };
 
@@ -160,6 +185,7 @@ Player.prototype.strait = function () {
   }
 };
 
+//dan
 //royal flush-easy
 
 //strait flush-hard
