@@ -1,0 +1,17 @@
+h1 {
+  text-align: center;
+}
+
+body {
+  background-color: grey;
+}
+
+.jumbotron {
+  background-image: url(../img/chips.jpg);
+}
+
+#homeTable {
+  display: block;
+  margin: auto;
+  width: 600px;
+}

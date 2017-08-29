@@ -126,10 +126,10 @@ function winning(player){
 
 //mike
 //pair-easy
-function pair(player){
-  this.yourHand
-  this.totalHand
+Player.prototype.pair = function {
+
   for(var i = 0; i <= totalHand.length; i++)
+
   alert("Player 1 wins. You have a pair!");
 
 }
