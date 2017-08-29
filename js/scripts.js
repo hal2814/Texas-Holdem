@@ -4,8 +4,8 @@
 //card deck arrays- 2 arrays (suit , number)
 var suitNum = [1,2,3,4];
 var suit = ["Clubs","Diamonds","Hearts","Spades"];
-// var cardNum = [2,3,4,5,6,7,8,9,10,11,12,13,14];
-var cardNum = [2];
+var cardNum = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+// var cardNum = [2];
 var face = ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 
 
@@ -25,43 +25,55 @@ function Player(tableCards){
 }
 
 var cardOnTable =[];
+var coordinate;
 //dan
 //function to compare draw if card is on table -takes Card object as arg
 //returns true if card is on table, false if card has not been drawn
-function isOnTable(card){
-  //will need a loop to check card value and suit against all cards
-  cardOnTable.length;
-  // console.log(cardOnTable.length);
-  for (var i = 0; i < cardOnTable.length-1; i++) {
-    if
-    // ((card.value && card.suit) !== (cardOnTable[i].value && cardOnTable[i].suit))
-    ((this.value !== cardOnTable[i].value) && (this.suit !== cardOnTable[i].suit))
-    {
-      console.log("if");
-
-      console.log(this.value);
-      console.log(cardOnTable[i].value);
-      console.log(this.suit);
-      console.log(cardOnTable[i].suit);
-      // drawNumber();
-      // drawSuit();
-      // new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
-    } else if
-    // ((currentCard.value && currentCard.suit) === (cardOnTable[i].value && cardOnTable[i].suit))
-    ((this.value === cardOnTable[i].value) && (this.suit === cardOnTable[i].suit))
-    {
-      // currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
-      // i =0;
-      console.log("if2");
-    } else {
-      alert("isOnTable not working");
-      return;
-    }
-
-
-  }
+Card.prototype.isOnTable = function (draw) {
+  cordinate = [this.value, this.suit]
+  this.value
 
 }
+//   cardOnTable.length;
+//   console.log(cardOnTable.length);
+//   console.log(this.value);
+//   // console.log(this.face);
+//   console.log(this.suit);
+//
+//   // console.log(cardOnTable[0].value);
+//
+//
+//   for (var i = 0; i < cardOnTable.length-1; i++) {
+//     if
+//     ((this.value !== cardOnTable[i].value))
+//     // && (this.suit !== cardOnTable[i].suit))
+//     {
+//       console.log("if");
+//
+//       console.log(card.value);
+//       console.log(cardOnTable[i].value);
+//       console.log(this.suit);
+//       console.log(cardOnTable[i].suit);
+//       // drawNumber();
+//       // drawSuit();
+//       // new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+//     } else if
+//     // ((currentCard.value && currentCard.suit) === (cardOnTable[i].value && cardOnTable[i].suit))
+//     ((this.value === cardOnTable[i].value))
+//     // && (this.suit === cardOnTable[i].suit))
+//     {
+//       // currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+//       // i =0;
+//       console.log("if2");
+//     } else {
+//       alert("isOnTable test passed");
+//       return;
+//     }
+//   }
+//
+// }
+
+
 
 //dan
 //draw function - return array with 2 values (suit,number)
@@ -69,31 +81,53 @@ function isOnTable(card){
 //draw will draw 2 random numbers suit(1,4),number(2,14) if draw
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
 var numMinDraw=2;
-var numMaxDraw=3;
+var numMaxDraw=15;
 var myDrawNumber = 0;
-var myDrawNumberIndex;
-var myDrawNumberIndex2;
-// var theCurrentDraw;
-function drawNumber(numMinDraw,numMaxDraw){
-  var min = Math.ceil(numMinDraw);
-  var max = Math.floor(numMaxDraw);
-  // theCurrentDraw = Math.floor(Math.random() * (15-2)+2)
-  myDrawNumber = Math.floor(Math.random() * (3 - 2))+ 2;
-  myDrawNumberIndex = cardNum[myDrawNumber-2];
-  myDrawNumberIndex2 = face[myDrawNumber-2];
-}
-
+var myDrawNumberIndex =0;
+var myDrawNumberIndex2 =0;
 var suitMin=1;
 var suitMax=5;
 var mySuitNumber =0;
 var mySuitNumberIndex;
 var mySuitNumberIndex2;
-
-function drawSuit(suitMin,suitMax) {
+var generatedArray = [];
+// var theCurrentDraw;
+function draw(numMinDraw,numMaxDraw, suitMin,suitMax){
+  // var min = Math.ceil(numMinDraw);
+  // var max = Math.floor(numMaxDraw);
+  myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  myDrawNumberIndex = cardNum[myDrawNumber-2];
+  myDrawNumberIndex2 = face[myDrawNumber-2];
   mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
   mySuitNumberIndex = suitNum[mySuitNumber-1];
   mySuitNumberIndex2 = suit[mySuitNumber-1];
+  console.log(myDrawNumberIndex);
+  console.log(mySuitNumberIndex);
+  generatedArray.push([myDrawNumberIndex,mySuitNumberIndex]);
+  console.log(generatedArray);
+
 }
+
+
+  // function drawNumber(numMinDraw,numMaxDraw){
+  //   var min = Math.ceil(numMinDraw);
+  //   var max = Math.floor(numMaxDraw);
+  //   // theCurrentDraw = Math.floor(Math.random() * (15-2)+2)
+  //   myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  //   myDrawNumberIndex = cardNum[myDrawNumber-2];
+  //   myDrawNumberIndex2 = face[myDrawNumber-2];
+
+  // var suitMin=1;
+  // var suitMax=5;
+  // var mySuitNumber =0;
+  // var mySuitNumberIndex;
+  // var mySuitNumberIndex2;
+  // function drawSuit(suitMin,suitMax) {
+    // mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
+    // mySuitNumberIndex = suitNum[mySuitNumber-1];
+    // mySuitNumberIndex2 = suit[mySuitNumber-1];
+  // }
+
 
 
 
@@ -159,17 +193,12 @@ $(document).ready(function() {
 
 
 
-    drawNumber();
-    // console.log(myDrawNumber);
-    console.log(myDrawNumberIndex);
-    // console.log(myDrawNumberIndex2);
-    drawSuit();
-    // console.log(mySuitNumber);
-    // console.log(mySuitNumberIndex);
-    console.log(mySuitNumberIndex2);
+    draw(numMinDraw,numMaxDraw, suitMin,suitMax);
+
     currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
     console.log(currentCard);
-    isOnTable(currentCard);
+    currentCard.isOnTable();
+
     cardOnTable.push(currentCard);
     console.log(cardOnTable);
 
