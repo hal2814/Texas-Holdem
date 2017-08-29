@@ -16,6 +16,7 @@ function Card(value,face,suit){
 }
 
 //player object
+//arrays hold card objects
 function Player(tableCards){
   this.tableCards = tableCards; //3 cards on table
   this.yourHand = []; //your 2 cards
@@ -40,17 +41,42 @@ function draw(){
 
 //nate
 //displays the picture of card takes array as arg with 2 ints (suit,cardNumber)
-function displayCard(suitAndNumber){
+function displayCard(suitAndNumber,displayTo){
   var suit = suitAndNumber[0];
   var num = suitAndNumber[1];
-  
+  $("#"+displayTo).append("<img src='img/'"+suit+"_"+num+">");
 }
 
-//nate
-//create card object, display, push to array
-//requires draw() function, and displayCard() function
-function putCardOnTable(){
+//checks if input values (array of suit/num), match a card object that exists already
+//returns true if card matches, false if it does not
+Card.prototype.checkForTableCard = function (suitAndNumber) {
+  var suitNum = suitAndNumber[0];
+  var cardNum = suitAndNumber[1];
+  if(suitNum === this.suit && cardNum === this.value){
+    return true;
+  }else{
+    return false;
+  }
+};
 
+//nate
+//create card object, display, push to array in player object
+//requires draw() function, and displayCard() function
+//array gets the value of member of Player object
+Player.prototype.putCardOnTable = function (suitAndNumber,displayTo,array) {
+  var suitNum = suitAndNumber[0];
+  var cardNum = suitAndNumber[1];
+  var faceString = face[atIndex(cardNum)];
+  for(var i=0;i<this.array.length;++i){
+    if(!this.array[i].checkForTableCard(suitAndNumber)){
+      var newCard = new Card(cardNum,faceString,suitNum);
+      array.push(newCard);
+      displayCard(suitAndNumber,displayTo);
+      return true;
+    }else{
+      return false;
+    }
+  };
 }
 
 
