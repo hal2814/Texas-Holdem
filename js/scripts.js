@@ -24,6 +24,18 @@ function Player(tableCards){
   this.totalHand = []; //your hand + table hand
 }
 
+//return suit value
+Card.prototype.whatSuit = function() {
+  return this.suit;
+}
+
+Card.prototype.whatValue = function() {
+  return this.value;
+}
+
+//return card value
+
+
 var cardOnTable =[];
 var coordinate;
 //dan
@@ -90,30 +102,9 @@ function draw(){
   var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
   var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
-  console.log(generatedArray);
+  // console.log(generatedArray);
   return generatedArray;
 }
-
-
-  // function drawNumber(numMinDraw,numMaxDraw){
-  //   var min = Math.ceil(numMinDraw);
-  //   var max = Math.floor(numMaxDraw);
-  //   // theCurrentDraw = Math.floor(Math.random() * (15-2)+2)
-  //   myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
-  //   myDrawNumberIndex = cardNum[myDrawNumber-2];
-  //   myDrawNumberIndex2 = face[myDrawNumber-2];
-
-  // var suitMin=1;
-  // var suitMax=5;
-  // var mySuitNumber =0;
-  // var mySuitNumberIndex;
-  // var mySuitNumberIndex2;
-  // function drawSuit(suitMin,suitMax) {
-    // mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
-    // mySuitNumberIndex = suitNum[mySuitNumber-1];
-    // mySuitNumberIndex2 = suit[mySuitNumber-1];
-  // }
-
 
 
 
@@ -149,23 +140,130 @@ function winning(player){
 
 //mike
 //2 pair-easy
+Player.prototype.twoPair = function () {
+  var myPair=0;
+  for (var i=0, i<this.totalHand.length; i+=1) {
+    if (totalHand[i]===totalHand[i+1]) {
+      myPair +=1;
+    }
+    if (myPair ===1) {
+      return 1;
+    }
+  }
+}
 
 //3 of a kind-easy
-
-//4 of a kind-easy
+Player.prototype.twoThreeFour = function () {
+  var currentCard;
+  var cardsThatMatchCount = 1;
+  for(var i=0;i<this.totalHand.length;++i){
+    currentCard = this.totalHand[i];
+    for(var j=0;j<this.totalHand.length;++j){
+      if(currentCard === this.totalHand[j] && j!==i){
+        cardsThatMatchCount +=1;
+      }
+    }
+  }
+  //needs to differentiate bewteen 2 pair, and 4 of the same
+  if(cardsThatMatchCount ===4){
+    return 8;
+    //alert("Four of a kind");
+  }else if(cardsThatMatchCount===3){
+    return 4;
+    //alert("Three of a kind");
+  }else if(cardsThatMatchCount===2){
+    return 2;
+    //alert("Pair")
+  }
+};
 
 //mike
 //flush-medium
 
 //strait-hard
+Player.prototype.strait = function () {
+  var isStrait = 0;
+  for(var i =0; i<totalHand.length-1;++i){
+    if((totalHand[i]-totalHand[i+1]) ===1){
+      isStrait +=1;
+    }
+  }
+  if(isStrait >= 5){
+    return 5
+    //alert("Strait")
+  }
+};
 
-//royal flush-hard
+//royal flush-medium-dan
+Player.prototype.royalFlush = function() {
+  for (var i = 0; i < totalHand.length-1; i++) {
+    var isStrait =0;
+    var isSuit =0;
+    if ((totalHand[i].whatValue()=10) && (totalHand[i+1] - totalHand[i] === 1)) {
+      isStrait +=1;
+      isSuit += totalHand[i].whatSuit();
+    }
+    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
+      return 10
+    }
+
+  }
+}
 
 //strait flush-hard
+Player.prototype.straitFlush = function () {
+  var isStrait = 0;
+  var isSuit = 0;
+  for(var i =0; i<totalHand.length-1;++i){
+    if((totalHand[i]-totalHand[i+1]) ===1){
+      isStrait +=1;
+      isSuit += totalHand[i].whatSuit();
+    }
+    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
+      return 5
+      //alert("Strait")
+    }
+  }
+};
 
-//full house-medium
+
+// //full house-medium
+// Player.prototype.twoThreeFour = function () {
+//   var currentCard;
+//   var cardsThatMatch = [];
+//   for(var i=0;i<this.totalHand.length;++i){
+//     currentCard = this.totalHand[i];
+//     for(var j=0;j<this.totalHand.length;++j){
+//       if(currentCard === this.totalHand[j] && j!==i){
+//         var cardsThatMatch+i.push(this.totalHand[j]);
+//       }
+//     }
+//   }
+//   //needs to differentiate bewteen 2 pair, and 4 of the same
+//   if(cardsThatMatch){
+//     return 8;
+//     //alert("Four of a kind");
+//   }else if(cardsThatMatchCount===3){
+//     return 4;
+//     //alert("Three of a kind");
+//   }else if(cardsThatMatchCount===2){
+//     return 2;
+//     //alert("Pair")
+//   }
+// };
+
 
 //high card-medium
+Player.prototype.highCard= function () {
+  var justValues = [];
+  for(var i = 0;i<this.totalHand.length;++i){
+    justValues.push(this.totalHand[i].whatValue());
+  }
+  justValues.sort();
+
+  alert("high card is " +justValues[justValues.length-1])
+  return justValues[justValues.length-1];
+};
 
 
 //Front End
@@ -180,7 +278,7 @@ $(document).ready(function() {
 
 
     draw();
-
+    console.log(draw());
     // // currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
     // console.log(currentCard);
     // currentCard.isOnTable();
