@@ -105,10 +105,6 @@ function winning(player){
 //Strait Flush - 9
 //Royal Flush - 10
 
-
-//mike
-//pair-easy
-
 //mike
 //2 pair-easy
 
@@ -137,13 +133,22 @@ Player.prototype.twoThreeFour = function () {
   }
 };
 
-
-//4 of a kind-easy
-
 //mike
 //flush-medium
 
 //strait-hard
+Player.prototype.strait = function () {
+  var isStrait = 0;
+  for(var i =0; i<totalHand.length-1;++i){
+    if((totalHand[i]-totalHand[i+1]) ===1){
+      isStrait +=1;
+    }
+  }
+  if(isStrait >= 5){
+    return 5
+    //alert("Strait")
+  }
+}
 
 //royal flush-hard
 
