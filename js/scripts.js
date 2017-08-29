@@ -31,21 +31,28 @@ var cardOnTable =[];
 function isOnTable(card){
   //will need a loop to check card value and suit against all cards
   cardOnTable.length;
+  // console.log(cardOnTable.length);
   for (var i = 0; i < cardOnTable.length-1; i++) {
     if
     // ((card.value && card.suit) !== (cardOnTable[i].value && cardOnTable[i].suit))
-    ((card.value !== cardOnTable[i].value) && (card.suit !== cardOnTable[i].suit))
+    ((this.value !== cardOnTable[i].value) && (this.suit !== cardOnTable[i].suit))
     {
       console.log("if");
+
+      console.log(this.value);
+      console.log(cardOnTable[i].value);
+      console.log(this.suit);
+      console.log(cardOnTable[i].suit);
       // drawNumber();
       // drawSuit();
       // new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
     } else if
     // ((currentCard.value && currentCard.suit) === (cardOnTable[i].value && cardOnTable[i].suit))
-    ((card.value === cardOnTable[i].value) && (card.suit === cardOnTable[i].suit))
+    ((this.value === cardOnTable[i].value) && (this.suit === cardOnTable[i].suit))
     {
-      currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
-      i =0;
+      // currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+      // i =0;
+      console.log("if2");
     } else {
       alert("isOnTable not working");
       return;
@@ -153,14 +160,15 @@ $(document).ready(function() {
 
 
     drawNumber();
-    console.log(myDrawNumber);
+    // console.log(myDrawNumber);
     console.log(myDrawNumberIndex);
-    console.log(myDrawNumberIndex2);
+    // console.log(myDrawNumberIndex2);
     drawSuit();
-    console.log(mySuitNumber);
-    console.log(mySuitNumberIndex);
+    // console.log(mySuitNumber);
+    // console.log(mySuitNumberIndex);
     console.log(mySuitNumberIndex2);
-    currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+    currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
+    console.log(currentCard);
     isOnTable(currentCard);
     cardOnTable.push(currentCard);
     console.log(cardOnTable);
