@@ -26,17 +26,18 @@ function Player(tableCards){
 //dan
 //function to compare draw if card is on table -takes Card object as arg
 //returns true if card is on table, false if card has not been drawn
-function isOnTable(card){
+function isOnTable(draw){
 
 }
 
 //dan
 //draw function - return array with 2 values (suit,number)
 //requires isOnTable() function
-//draw will draw 2 random numbers suit(1,4),number(2,14) if draw
+//draw will draw 2 random numbers suit(1,4),number(2,14) ---if draw
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
-function draw(){
-
+ //card prototype - function draw(){
+  //var array = [(1,4),(2,14)]
+  //return array
 }
 
 //nate
@@ -49,9 +50,9 @@ function displayCard(suitAndNumber,displayTo){
 
 //checks if input values (array of suit/num), match a card object that exists already
 //returns true if card matches, false if it does not
-Card.prototype.checkForTableCard = function (suitAndNumber) {
-  var suitNum = suitAndNumber[0];
-  var cardNum = suitAndNumber[1];
+Card.prototype.checkForTableCard = function (draw) {
+  var suitNum = draw[0];
+  var cardNum = draw[1];
   if(suitNum === this.suit && cardNum === this.value){
     return true;
   }else{
@@ -92,13 +93,50 @@ function winning(player){
 
 //by difficulty
 
+//Holdem hand ranking values:
+//High Card - 1
+//Pair - 2
+//2 Pair - 3
+//3 of a kind - 4
+//Strait - 5
+//Flush - 6
+//Full House - 7
+//4 of a kind - 8
+//Strait Flush - 9
+//Royal Flush - 10
+
+
 //mike
 //pair-easy
 
 //mike
 //2 pair-easy
 
-//3 of a kind-easy
+//3 of a kind-easy (or pair/three/four of a kind) returns priority value as an integer
+//returns a 0 if none of these conditions are found
+Player.prototype.twoThreeFour = function () {
+  var currentCard;
+  var cardsThatMatchCount = 1;
+  for(var i=0;i<this.totalHand.length;++i){
+    currentCard = this.totalHand[i];
+    for(var j=0;j<this.totalHand.length;++j){
+      if(currentCard === this.totalHand[j] && j!==i){
+        cardsThatMatchCount +=1;
+      }
+    }
+  }
+  if(cardsThatMatchCount ===4){
+    return 8;
+    //alert("Four of a kind");
+  }else if(cardsThatMatchCount===3){
+    return 4;
+    //alert("Three of a kind");
+  }else if(cardsThatMatchCount===2){
+    return 2;
+    //alert("Pair")
+  }
+};
+
 
 //4 of a kind-easy
 
