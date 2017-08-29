@@ -28,6 +28,10 @@ Card.prototype.whatSuit = function () {
   return this.suit;
 };
 
+Card.prototype.whatValue = function () {
+  return this.value;
+};
+
 //dan
 //function to compare draw if card is on table -takes Card object as arg
 //returns true if card is on table, false if card has not been drawn
@@ -126,6 +130,7 @@ Player.prototype.twoThreeFour = function () {
       }
     }
   }
+  //needs to differentiate bewteen 2 pair, and 4 of the same
   if(cardsThatMatchCount ===4){
     return 8;
     //alert("Four of a kind");
@@ -172,9 +177,46 @@ Player.prototype.straitFlush = function () {
     }
   }
 };
-//full house-medium
+
+
+// //full house-medium
+// Player.prototype.twoThreeFour = function () {
+//   var currentCard;
+//   var cardsThatMatch = [];
+//   for(var i=0;i<this.totalHand.length;++i){
+//     currentCard = this.totalHand[i];
+//     for(var j=0;j<this.totalHand.length;++j){
+//       if(currentCard === this.totalHand[j] && j!==i){
+//         var cardsThatMatch+i.push(this.totalHand[j]);
+//       }
+//     }
+//   }
+//   //needs to differentiate bewteen 2 pair, and 4 of the same
+//   if(cardsThatMatch){
+//     return 8;
+//     //alert("Four of a kind");
+//   }else if(cardsThatMatchCount===3){
+//     return 4;
+//     //alert("Three of a kind");
+//   }else if(cardsThatMatchCount===2){
+//     return 2;
+//     //alert("Pair")
+//   }
+// };
+
 
 //high card-medium
+Player.prototype.highCard= function () {
+  var justValues = [];
+  for(var i = 0;i<this.totalHand.length;++i){
+    justValues.push(this.totalHand[i].whatValue());
+  }
+  justValues.sort();
+
+  alert("high card is " +justValues[justValues.length-1])
+  return justValues[justValues.length-1];
+};
+
 
 
 //Front End
