@@ -23,6 +23,11 @@ function Player(tableCards){
   this.totalHand = []; //your hand + table hand
 }
 
+//return suit value
+Card.prototype.whatSuit = function () {
+  return this.suit;
+};
+
 //dan
 //function to compare draw if card is on table -takes Card object as arg
 //returns true if card is on table, false if card has not been drawn
@@ -148,12 +153,25 @@ Player.prototype.strait = function () {
     return 5
     //alert("Strait")
   }
-}
+};
 
-//royal flush-hard
+//royal flush-easy
 
 //strait flush-hard
-
+Player.prototype.straitFlush = function () {
+  var isStrait = 0;
+  var isSuit = 0;
+  for(var i =0; i<totalHand.length-1;++i){
+    if((totalHand[i]-totalHand[i+1]) ===1){
+      isStrait +=1;
+      isSuit += totalHand[i].whatSuit();
+    }
+    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
+      return 5
+      //alert("Strait")
+    }
+  }
+};
 //full house-medium
 
 //high card-medium
