@@ -126,7 +126,13 @@ function winning(player){
 
 //mike
 //pair-easy
+function pair(player){
+  this.yourHand
+  this.totalHand
+  for(var i = 0; i <= totalHand.length; i++)
+  alert("Player 1 wins. You have a pair!");
 
+}
 //mike
 //2 pair-easy
 
