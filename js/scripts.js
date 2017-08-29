@@ -39,9 +39,11 @@ function draw(){
 }
 
 //nate
-//displays the picture of card
-function displayCard(){
-
+//displays the picture of card takes array as arg with 2 ints (suit,cardNumber)
+function displayCard(suitAndNumber){
+  var suit = suitAndNumber[0];
+  var num = suitAndNumber[1];
+  
 }
 
 //nate
