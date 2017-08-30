@@ -12,9 +12,16 @@ body {
   background-image: url(../img/pokertable.jpg);
   color: white;
 }
+h3{
+  color: darkorange;
+  font-weight: bold;
+  font-style: italic;
+}
 
-.cardback{
-
+.btn{
+  width: 100%;
+  font-size: 22px;
+  font-family: fantasy;
 }
 
 .well{
@@ -25,6 +32,7 @@ body {
 .jumbotron {
   background-image: url(../img/banner.jpg);
 }
+
 
 #homeTable {
   display: block;
