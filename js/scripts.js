@@ -28,6 +28,7 @@ Card.prototype.whatSuit = function() {
   return this.suit;
 }
 
+//return card value
 Card.prototype.whatValue = function() {
   return this.value;
 }
@@ -41,19 +42,25 @@ function cardValueArr(array) {
   return totalHandValues;
 };
 
-//return card value
-
-
-var cardOnTable =[];
-var coordinate;
-//dan
-//function to compare draw if card is on table -takes Card object as arg
-//returns true if card is on table, false if card has not been drawn
-Card.prototype.isOnTable = function (draw) {
-  cordinate = [this.value, this.suit]
-  this.value
-
+//if function(arg) returns false it will call again
+function callAgain(putOnTableFunction,bool){
+  if(!bool){
+    return callAgain(putOnTableFunction,bool);
+  }else{
+    putOnTableFunction;
+  }
 }
+
+// var cardOnTable =[];
+// var coordinate;
+// //dan
+// //function to compare draw if card is on table -takes Card object as arg
+// //returns true if card is on table, false if card has not been drawn
+// Card.prototype.isOnTable = function (draw) {
+//   cordinate = [this.value, this.suit]
+//   this.value
+//
+// }
 //   cardOnTable.length;
 //   console.log(cardOnTable.length);
 //   console.log(this.value);
@@ -105,7 +112,7 @@ Card.prototype.isOnTable = function (draw) {
 
 function draw(){
 
-  var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  var myDrawNumber = Math.floor(Math.random() * (4 - 2))+ 2;
   var myDrawNumberIndex = cardNum[myDrawNumber-2];
   var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
@@ -133,7 +140,7 @@ function displayCard(draw,displayTo){
 Card.prototype.checkForTableCard = function (draw) {
   var suitNum = draw[0];
   var cardNum = draw[1];
-  if(suitNum === this.suit && cardNum === this.value){
+  if((suitNum === this.suit) && (cardNum === this.value)){
     return true;
   }else{
     return false;
@@ -147,6 +154,7 @@ Card.prototype.checkForTableCard = function (draw) {
 Player.prototype.putCardOnTable = function (draw,displayTo,array) {
   var suitNum = draw[0];
   var cardNum = draw[1];
+  var count = 0;
   // var newCard;
   //special case: for first card (aka poker table is empty)
   if(!this.totalHand.toString()){
@@ -157,15 +165,17 @@ Player.prototype.putCardOnTable = function (draw,displayTo,array) {
     this.totalHand.push(newCard);
     displayCard(draw,displayTo);
     console.log(displayTo);
-    return true;
   }
   for(var i=0;i<this.totalHand.length;++i){
     if(!this.totalHand[i].checkForTableCard(draw)){
-      var newCard = new Card(cardNum,suitNum);
-      array.push(newCard);
-      this.totalHand.push(newCard);
-      displayCard(draw,displayTo);
-      return true;
+      count += 1;
+      if(count === this.totalHand.length){
+        var newCard = new Card(cardNum,suitNum);
+        array.push(newCard);
+        this.totalHand.push(newCard);
+        displayCard(draw,displayTo);
+        return true;
+      }
     }else{
       return false;
     }
@@ -362,65 +372,142 @@ $(document).ready(function() {
   var thePlayer;
   $("#drawButton").click(function() {
     thePlayer = new Player();
-    var hole1Card = thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
-    if(!hole1Card){
-      thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+    var hole1Card;
+    do
+    {
+      hole1Card =thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
     }
+    while(hole1Card);
     console.log(thePlayer);
     console.log(thePlayer.yourHand);
-    var hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
-    if(!hole2Card){
-      thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+    var hole2Card;
+    do
+    {
+      hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
     }
+    while(!hole2Card);
     console.log(thePlayer.yourHand);
   });
   $("#betButton").click(function() {
-    var flop1Card
-    =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
-    if(!flop1Card){
-      thePlayer.putCardOnTable(draw(),"flop1",thePlayer.yourHand);
+    var flop1Card;
+    do
+    {
+      flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
     }
-    var flop2Card
-    =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
-    if(!flop2Card){
-      thePlayer.putCardOnTable(draw(),"flop2",thePlayer.yourHand);
+    while(!flop1Card);
+
+    var flop2Card;
+
+    do
+    {
+      flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
     }
-    var flop3Card
-    =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
-    if(!flop3Card){
-      thePlayer.putCardOnTable(draw(),"flop3",thePlayer.yourHand);
+    while(!flop2Card);
+
+    var flop3Card;
+
+    do
+    {
+      flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
     }
+    while(!flop3Card);
+
+    $(".cardback").slideToggle();
     console.log(thePlayer.tableCards);
   });
   $("#betButton2").click(function() {
-    var turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
-    if(!turnCard){
-      thePlayer.putCardOnTable(draw(),"turn",thePlayer.yourHand);
+    var turnCard;
+
+    do
+    {
+      turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
     }
+    while(!turnCard);
+
+    $("#cardbackTurn").slideToggle();
   });
   $("#betButton3").click(function() {
-    var riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
-    if(!riverCard){
-      thePlayer.putCardOnTable(draw(),"river",thePlayer.yourHand);
+    var riverCard;
+
+    do
+    {
+      riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
     }
+    while(!riverCard);
+
+    $("#cardbackRiver").slideToggle();
     console.log(thePlayer.totalHand);
   });
+  // var thePlayer;
+  // $("#drawButton").click(function() {
+  //   thePlayer = new Player();
+  //   var hole1Card = thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+  //   if(!hole1Card){
+  //     thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+  //   }
+  //   console.log(thePlayer);
+  //   console.log(thePlayer.yourHand);
+  //   var hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+  //   if(!hole2Card){
+  //     thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+  //   }
+  //   console.log(thePlayer.yourHand);
+  // });
+  // $("#betButton").click(function() {
+  //   var flop1Card
+  //   =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
+  //   if(!flop1Card){
+  //     thePlayer.putCardOnTable(draw(),"flop1",thePlayer.yourHand);
+  //   }
+  //   var flop2Card
+  //   =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
+  //   if(!flop2Card){
+  //     thePlayer.putCardOnTable(draw(),"flop2",thePlayer.yourHand);
+  //   }
+  //   var flop3Card
+  //   =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
+  //   if(!flop3Card){
+  //     thePlayer.putCardOnTable(draw(),"flop3",thePlayer.yourHand);
+  //   }
+  //   $(".cardback").slideToggle();
+  //   console.log(thePlayer.tableCards);
+  // });
+  // $("#betButton2").click(function() {
+  //   var turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
+  //   if(!turnCard){
+  //     thePlayer.putCardOnTable(draw(),"turn",thePlayer.yourHand);
+  //   }
+  //   $("#cardbackTurn").slideToggle();
+  // });
+  // $("#betButton3").click(function() {
+  //   var riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
+  //   if(!riverCard){
+  //     thePlayer.putCardOnTable(draw(),"river",thePlayer.yourHand);
+  //   }
+  //   $("#cardbackRiver").slideToggle();
+  //   console.log(thePlayer.totalHand);
+  // });
   $("#handButton").click(function() {
     // event.preventdefault();
     if(thePlayer.matchVictory()===2){
       console.log("One Pair");
+      $("#ouput").text("One Pair");
     }
     if(thePlayer.matchVictory()===3){
       console.log("Two Pair");
+      $("#ouput").text("Two Pair");
     }
     if(thePlayer.matchVictory()===4){
       console.log("Three of a kind");
+      $("#ouput").text("Three of a kind");
     }
     if(thePlayer.matchVictory()===7){
       console.log("Full House");
+      $("#ouput").text("Full House");
     }
     if(thePlayer.matchVictory()===8){
       console.log("Four of a kind");
+      $("#ouput").text("Four of a kind");
     }
   });
 });
