@@ -118,10 +118,10 @@ function draw(){
 
 //nate
 //displays the picture of card takes array as arg with 2 ints (suit,cardNumber)
-function displayCard(suitAndNumber,displayTo){
-  var suit = suitAndNumber[0];
-  var num = suitAndNumber[1];
-  $("#"+displayTo).append("<img src='img/'"+suit+"_"+num+">");
+function displayCard(draw,displayTo){
+  var suit = draw[0];
+  var num = draw[1];
+  $("#"+displayTo).append("<img src='img/"+suit+"_"+num+".png'>");
   console.log(displayTo);
 }
 
@@ -364,17 +364,19 @@ $(document).ready(function() {
     thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
     console.log(thePlayer.yourHand);
   });
-  // $("#betButton").click(function() {
-  //   thePlayer.putCardOnTable(draw(),"flop1",tableCards);
-  //   thePlayer.putCardOnTable(draw(),"flop2",tableCards);
-  //   thePlayer.putCardOnTable(draw(),"flop2",tableCards);
-  // });
-  // $("#betButton2").click(function() {
-  //   thePlayer.putCardOnTable(draw(),"turn",tableCards);
-  // });
-  // $("#betButton3").click(function() {
-  //   thePlayer.putCardOnTable(draw(),"river",tableCards);
-  // });
+  $("#betButton").click(function() {
+    thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
+    thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
+    thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
+    console.log(thePlayer.tableCards);
+  });
+  $("#betButton2").click(function() {
+    thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
+  });
+  $("#betButton3").click(function() {
+    thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
+    console.log(thePlayer.totalHand);
+  });
 });
 
 
