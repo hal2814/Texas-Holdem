@@ -1,20 +1,72 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/scripts.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <title>Texas Holdem</title>
+      <title>Texas Holdem</title>
   </head>
   <body>
-    <h1>Texas Holdem</h1>
-
-
-    <!-- Card table design -->
-
-
-    <div id="output">
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Texas Holdem</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well">
+            <div class="space" id="flop1"></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="well">
+            <div class="space" id="flop2"></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="well">
+            <div class="space" id="flop3"></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="well">
+            <div class="space" id="turn"></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="well">
+            <div class="space" id="river"></div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="well">
+            <div class="space" id="hole1"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="well">
+            <div class="space" id="hole2"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <br>
+        <h4>Rules of the game</h4>
+        <p>Here we will write any info the user may need</p>
+        <ul>
+          <li>betting</li>
+          <li>how to play</li>
+          <li>rank of hands</li>
+          <li>winning conditions</li>
+          <li>etc</li>
+        </ul>
+      </div>
+      <button type="button" name="buttonForCard" id="theButton">Click me</button>
+      <div id="output">
+      </div>
     </div>
   </body>
 </html>

@@ -13,6 +13,7 @@ function Card(value,face,suit){
   this.value = value;
   this.face = face;
   this.suit = suit;
+  this.onTable;
 }
 
 //player object
@@ -53,6 +54,9 @@ function draw(){
   array.push(Math.floor((Math.random()*4)+1));
   return array;
 }
+
+
+
 
 //nate
 //displays the picture of card takes array as arg with 2 ints (suit,cardNumber)
@@ -128,6 +132,7 @@ function countInArray(array, item) {
 //4 of a kind - 8
 //Strait Flush - 9
 //Royal Flush - 10
+
 
 //mike
 //2 pair-easy
@@ -246,8 +251,13 @@ Player.prototype.highCard= function () {
 
 
 //Front End
-
+//dan
 //document ready
+$(document).ready(function() {
+
+  });
+});
+
 
 //nate
 //draw button click- draw cards first for player, then draw cards for table

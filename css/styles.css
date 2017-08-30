@@ -1,0 +1,20 @@
+h1 {
+  text-align: center;
+  color: white;
+}
+
+body {
+  background-color: grey;
+  background-image: url(../img/pokertable.jpg);
+  color: white;
+}
+
+.jumbotron {
+  background-image: url(../img/banner.jpg);
+}
+
+#homeTable {
+  display: block;
+  margin: auto;
+  width: 600px;
+}
