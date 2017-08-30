@@ -32,10 +32,11 @@ Card.prototype.whatValue = function() {
   return this.value;
 }
 
-Card.prototype.cardValueArr = function () {
+//turns array of cards into array of values
+function cardValueArr(array) {
   var totalHandValues = [];
-	for(var i =0;i<this.totalHand.length;++i){
-  	totalHandValues.push(this.totalHand[i].whatValue());
+	for(var i =0;i<array.length;++i){
+  	totalHandValues.push(array[i].whatValue());
   }
   return totalHandValues;
 };
@@ -110,6 +111,8 @@ function draw(){
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
   var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
   // console.log(generatedArray);
+  console.log("draw: ");
+  console.log(generatedArray);
   return generatedArray;
 }
 
@@ -154,6 +157,7 @@ Player.prototype.putCardOnTable = function (draw,displayTo,array) {
     this.totalHand.push(newCard);
     displayCard(draw,displayTo);
     console.log(displayTo);
+    return true;
   }
   for(var i=0;i<this.totalHand.length;++i){
     if(!this.totalHand[i].checkForTableCard(draw)){
@@ -223,7 +227,7 @@ function countInArray(array, item) {
 Player.prototype.matchArray = function () {
   var cardCount = 0;
   var matchArray =[];
-  var totalHandValues = this.totalHand.cardValueArr();
+  var totalHandValues = cardValueArr(this.totalHand);
   for(var i=0;i<totalHandValues.length;++i){
     cardCount = countInArray(totalHandValues,totalHandValues[i]);
     if(cardCount >1){
@@ -243,8 +247,8 @@ function cmpArr(compare1, compare2) {
 	}
 }
 //takes matchArray function as arg
-Player.prototype.matchVictory= function (match) {
-  var isMatch = matchArray(match);
+Player.prototype.matchVictory= function () {
+  var isMatch = this.matchArray();
   isMatch.sort();
   if(cmpArr(isMatch,[4,4,4,4])){
     return 8;//four of a kind
@@ -358,24 +362,66 @@ $(document).ready(function() {
   var thePlayer;
   $("#drawButton").click(function() {
     thePlayer = new Player();
-    thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+    var hole1Card = thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+    if(!hole1Card){
+      thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+    }
     console.log(thePlayer);
     console.log(thePlayer.yourHand);
-    thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+    var hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+    if(!hole2Card){
+      thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+    }
     console.log(thePlayer.yourHand);
   });
   $("#betButton").click(function() {
-    thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
-    thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
-    thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
+    var flop1Card
+    =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
+    if(!flop1Card){
+      thePlayer.putCardOnTable(draw(),"flop1",thePlayer.yourHand);
+    }
+    var flop2Card
+    =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
+    if(!flop2Card){
+      thePlayer.putCardOnTable(draw(),"flop2",thePlayer.yourHand);
+    }
+    var flop3Card
+    =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
+    if(!flop3Card){
+      thePlayer.putCardOnTable(draw(),"flop3",thePlayer.yourHand);
+    }
     console.log(thePlayer.tableCards);
   });
   $("#betButton2").click(function() {
-    thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
+    var turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
+    if(!turnCard){
+      thePlayer.putCardOnTable(draw(),"turn",thePlayer.yourHand);
+    }
   });
   $("#betButton3").click(function() {
-    thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
+    var riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
+    if(!riverCard){
+      thePlayer.putCardOnTable(draw(),"river",thePlayer.yourHand);
+    }
     console.log(thePlayer.totalHand);
+  });
+  $("#handButton").click(function() {
+    // event.preventdefault();
+    if(thePlayer.matchVictory()===2){
+      console.log("One Pair");
+    }
+    if(thePlayer.matchVictory()===3){
+      console.log("Two Pair");
+    }
+    if(thePlayer.matchVictory()===4){
+      console.log("Three of a kind");
+    }
+    if(thePlayer.matchVictory()===7){
+      console.log("Full House");
+    }
+    if(thePlayer.matchVictory()===8){
+      console.log("Four of a kind");
+    }
   });
 });
 
