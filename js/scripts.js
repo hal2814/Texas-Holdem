@@ -187,17 +187,17 @@ function countInArray(array, item) {
 
 //mike
 //2 pair-easy
-Player.prototype.twoPair = function () {
-  var myPair=0;
-  for (var i=0, i<this.totalHand.length; i+=1) {
-    if (totalHand[i]===totalHand[i+1]) {
-      myPair +=1;
-    }
-    if (myPair ===1) {
-      return 1;
-    }
-  }
-}
+// Player.prototype.twoPair = function () {
+//   var myPair=0;
+//   for (var i=0, i<this.totalHand.length; i+=1) {
+//     if (totalHand[i]===totalHand[i+1]) {
+//       myPair +=1;
+//     }
+//     if (myPair ===1) {
+//       return 1;
+//     }
+//   }
+// }
 
 //3 of a kind-easy (or pair/three/four of a kind) returns priority value as an integer
 //returns a 0 if none of these conditions are found
@@ -205,7 +205,7 @@ Player.prototype.matchArray = function () {
   var cardCount = 0;
   var matchArray =[];
   for(var i=0;i<this.totalHand.length;++i){
-    cardCount = countInArray(this.totalHand,totalHand[i]);
+    cardCount = countInArray(this.totalHand,this.totalHand[i]);
     if(cardCount >1){
       matchArray.push(cardCount);
     }
@@ -213,25 +213,31 @@ Player.prototype.matchArray = function () {
   return matchArray.sort();
 };
 
-
+function cmpArr(compare1, compare2) {
+  var c1 = compare1.join();
+  var c2 = compare2.join();
+	if(c1 === c2 ){
+    return true;
+  }else{
+    return false;
+	}
+}
 //takes matchArray function as arg
-Player.prototype.= function (matchArray) {
-  matchArray.sort();
-  if(matchArray===[4]){
-    alert("Four of a kind");
-    return 8;
-  }else if(matchArray===[2,3]){
-    alert("Full House");
-    return 7;
-  }else if(matchArray===[3]){
-    alert("Three of a kind");
-    return 4;
-  }else if(matchArray===[2,2] || matchArray===[2,2,2]){
-    alert("Two Pair");
-    return 3;
-  }else if(matchArray===[2]){
-    alert("One Pair");
-    return 2;
+Player.prototype.matchVictory= function (match) {
+  var isMatch = matchArray(match);
+  isMatch.sort();
+  if(cmpArr(isMatch,[4,4,4,4])){
+    return 8;//four of a kind
+  }else if(cmpArr(isMatch,[2,2,3,3,3])){
+    return 7;//full house
+  }else if(cmpArr(isMatch,[3,3,3])){
+    return 4;//3 of a kind
+  }else if(cmpArr(isMatch,[2,2,2,2])){
+    return 3;//two pair
+  }else if(cmpArr(isMatch,[2,2])){
+    return 2;//one pair
+  }else{
+    return 0;
   }
 };
 
