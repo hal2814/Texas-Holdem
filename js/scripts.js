@@ -438,55 +438,6 @@ $(document).ready(function() {
     $("#cardbackRiver").slideToggle();
     console.log(thePlayer.totalHand);
   });
-  // var thePlayer;
-  // $("#drawButton").click(function() {
-  //   thePlayer = new Player();
-  //   var hole1Card = thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
-  //   if(!hole1Card){
-  //     thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
-  //   }
-  //   console.log(thePlayer);
-  //   console.log(thePlayer.yourHand);
-  //   var hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
-  //   if(!hole2Card){
-  //     thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
-  //   }
-  //   console.log(thePlayer.yourHand);
-  // });
-  // $("#betButton").click(function() {
-  //   var flop1Card
-  //   =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
-  //   if(!flop1Card){
-  //     thePlayer.putCardOnTable(draw(),"flop1",thePlayer.yourHand);
-  //   }
-  //   var flop2Card
-  //   =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
-  //   if(!flop2Card){
-  //     thePlayer.putCardOnTable(draw(),"flop2",thePlayer.yourHand);
-  //   }
-  //   var flop3Card
-  //   =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
-  //   if(!flop3Card){
-  //     thePlayer.putCardOnTable(draw(),"flop3",thePlayer.yourHand);
-  //   }
-  //   $(".cardback").slideToggle();
-  //   console.log(thePlayer.tableCards);
-  // });
-  // $("#betButton2").click(function() {
-  //   var turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
-  //   if(!turnCard){
-  //     thePlayer.putCardOnTable(draw(),"turn",thePlayer.yourHand);
-  //   }
-  //   $("#cardbackTurn").slideToggle();
-  // });
-  // $("#betButton3").click(function() {
-  //   var riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
-  //   if(!riverCard){
-  //     thePlayer.putCardOnTable(draw(),"river",thePlayer.yourHand);
-  //   }
-  //   $("#cardbackRiver").slideToggle();
-  //   console.log(thePlayer.totalHand);
-  // });
   $("#handButton").click(function() {
     // event.preventdefault();
     if(thePlayer.matchVictory()===2){
