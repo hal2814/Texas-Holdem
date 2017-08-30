@@ -3,10 +3,19 @@ h1 {
   color: white;
 }
 
+img{
+  width: 100%
+}
+
 body {
   background-color: grey;
   background-image: url(../img/pokertable.jpg);
   color: white;
+}
+
+.well{
+  background-color: red;
+  border-color: black;
 }
 
 .jumbotron {

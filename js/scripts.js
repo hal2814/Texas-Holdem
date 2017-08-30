@@ -17,8 +17,8 @@ function Card(value,face,suit){
 
 //player object
 //arrays hold card objects
-function Player(tableCards){
-  this.tableCards = tableCards; //3 cards on table
+function Player(){
+  this.tableCards = []; //3 cards on table
   this.yourHand = []; //your 2 cards
   this.totalHand = []; //your hand + table hand
 }
@@ -144,8 +144,8 @@ Player.prototype.putCardOnTable = function (suitAndNumber,displayTo,array) {
   var suitNum = suitAndNumber[0];
   var cardNum = suitAndNumber[1];
   var faceString = face[atIndex(cardNum)];
-  for(var i=0;i<this.array.length;++i){
-    if(!this.array[i].checkForTableCard(suitAndNumber)){
+  for(var i=0;i<this.totalHand.length;++i){
+    if(!this.totalHand[i].checkForTableCard(suitAndNumber)){
       var newCard = new Card(cardNum,faceString,suitNum);
       array.push(newCard);
       displayCard(suitAndNumber,displayTo);
@@ -344,17 +344,6 @@ Player.prototype.highCard= function () {
 //document ready
 $(document).ready(function() {
   $("#theButton").click(function() {
-
-
-
-    draw();
-    console.log(draw());
-    // // currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
-    // console.log(currentCard);
-    // currentCard.isOnTable();
-    //
-    // cardOnTable.push(currentCard);
-    // console.log(cardOnTable);
 
   });
 });
