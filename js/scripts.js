@@ -13,7 +13,6 @@ function Card(value,face,suit){
   this.value = value;
   this.face = face;
   this.suit = suit;
-  this.onTable;
 }
 
 //player object
@@ -32,6 +31,14 @@ Card.prototype.whatSuit = function() {
 Card.prototype.whatValue = function() {
   return this.value;
 }
+
+Card.prototype.cardValueArr = function () {
+  var totalHandValues = [];
+	for(var i =0;i<this.totalHand.length;++i){
+  	totalHandValues.push(this.totalHand[i].whatValue());
+  }
+  return totalHandValues;
+};
 
 //return card value
 
@@ -204,8 +211,9 @@ function countInArray(array, item) {
 Player.prototype.matchArray = function () {
   var cardCount = 0;
   var matchArray =[];
-  for(var i=0;i<this.totalHand.length;++i){
-    cardCount = countInArray(this.totalHand,this.totalHand[i]);
+  var totalHandValues = this.totalHand.cardValueArr();
+  for(var i=0;i<totalHandValues.length;++i){
+    cardCount = countInArray(totalHandValues,totalHandValues[i]);
     if(cardCount >1){
       matchArray.push(cardCount);
     }
