@@ -9,9 +9,9 @@ var face = ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 
 
 //card object
-function Card(value,face,suit){
+function Card(value,suit){
   this.value = value;
-  this.face = face;
+  //this.face = face;
   this.suit = suit;
 }
 
@@ -122,6 +122,7 @@ function displayCard(suitAndNumber,displayTo){
   var suit = suitAndNumber[0];
   var num = suitAndNumber[1];
   $("#"+displayTo).append("<img src='img/'"+suit+"_"+num+">");
+  console.log(displayTo);
 }
 
 //checks if input values (array of suit/num), match a card object that exists already
@@ -140,20 +141,31 @@ Card.prototype.checkForTableCard = function (draw) {
 //create card object, display, push to array in player object
 //requires draw() function, and displayCard() function
 //array gets the value of member of Player object
-Player.prototype.putCardOnTable = function (suitAndNumber,displayTo,array) {
-  var suitNum = suitAndNumber[0];
-  var cardNum = suitAndNumber[1];
-  var faceString = face[atIndex(cardNum)];
+Player.prototype.putCardOnTable = function (draw,displayTo,array) {
+  var suitNum = draw[0];
+  var cardNum = draw[1];
+  // var newCard;
+  //special case: for first card (aka poker table is empty)
+  if(!this.totalHand.toString()){
+    var newCard = new Card(cardNum,suitNum);
+    console.log(newCard);
+    console.log(array);
+    array.push(newCard);
+    this.totalHand.push(newCard);
+    displayCard(draw,displayTo);
+    console.log(displayTo);
+  }
   for(var i=0;i<this.totalHand.length;++i){
-    if(!this.totalHand[i].checkForTableCard(suitAndNumber)){
-      var newCard = new Card(cardNum,faceString,suitNum);
+    if(!this.totalHand[i].checkForTableCard(draw)){
+      var newCard = new Card(cardNum,suitNum);
       array.push(newCard);
-      displayCard(suitAndNumber,displayTo);
+      this.totalHand.push(newCard);
+      displayCard(draw,displayTo);
       return true;
     }else{
       return false;
     }
-  };
+  }
 }
 
 
@@ -343,9 +355,26 @@ Player.prototype.highCard= function () {
 //dan
 //document ready
 $(document).ready(function() {
-  $("#theButton").click(function() {
-
+  var thePlayer;
+  $("#drawButton").click(function() {
+    thePlayer = new Player();
+    thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+    console.log(thePlayer);
+    console.log(thePlayer.yourHand);
+    thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+    console.log(thePlayer.yourHand);
   });
+  // $("#betButton").click(function() {
+  //   thePlayer.putCardOnTable(draw(),"flop1",tableCards);
+  //   thePlayer.putCardOnTable(draw(),"flop2",tableCards);
+  //   thePlayer.putCardOnTable(draw(),"flop2",tableCards);
+  // });
+  // $("#betButton2").click(function() {
+  //   thePlayer.putCardOnTable(draw(),"turn",tableCards);
+  // });
+  // $("#betButton3").click(function() {
+  //   thePlayer.putCardOnTable(draw(),"river",tableCards);
+  // });
 });
 
 
