@@ -25,34 +25,85 @@ function Player(tableCards){
 }
 
 //return suit value
-Card.prototype.whatSuit = function () {
+Card.prototype.whatSuit = function() {
   return this.suit;
-};
+}
 
-Card.prototype.whatValue = function () {
+Card.prototype.whatValue = function() {
   return this.value;
-};
+}
 
+//return card value
+
+
+var cardOnTable =[];
+var coordinate;
 //dan
 //function to compare draw if card is on table -takes Card object as arg
 //returns true if card is on table, false if card has not been drawn
-function isOnTable(draw){
+Card.prototype.isOnTable = function (draw) {
+  cordinate = [this.value, this.suit]
+  this.value
 
 }
+//   cardOnTable.length;
+//   console.log(cardOnTable.length);
+//   console.log(this.value);
+//   // console.log(this.face);
+//   console.log(this.suit);
+//
+//   // console.log(cardOnTable[0].value);
+//
+//
+//   for (var i = 0; i < cardOnTable.length-1; i++) {
+//     if
+//     ((this.value !== cardOnTable[i].value))
+//     // && (this.suit !== cardOnTable[i].suit))
+//     {
+//       console.log("if");
+//
+//       console.log(card.value);
+//       console.log(cardOnTable[i].value);
+//       console.log(this.suit);
+//       console.log(cardOnTable[i].suit);
+//       // drawNumber();
+//       // drawSuit();
+//       // new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+//     } else if
+//     // ((currentCard.value && currentCard.suit) === (cardOnTable[i].value && cardOnTable[i].suit))
+//     ((this.value === cardOnTable[i].value))
+//     // && (this.suit === cardOnTable[i].suit))
+//     {
+//       // currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
+//       // i =0;
+//       console.log("if2");
+//     } else {
+//       alert("isOnTable test passed");
+//       return;
+//     }
+//   }
+//
+// }
+
+
 
 //dan
 //draw function - return array with 2 values (suit,number)
 //requires isOnTable() function
 //draw will draw 2 random numbers suit(1,4),number(2,14) ---if draw
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
- //card prototype - function draw(){
-  //var array = [(1,4),(2,14)]
-  //return array
+// var numMinDraw=2;
+// var numMaxDraw=15;
+
 function draw(){
-  var array = [];
-  array.push(Math.floor((Math.random()*14)+2));
-  array.push(Math.floor((Math.random()*4)+1));
-  return array;
+
+  var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  var myDrawNumberIndex = cardNum[myDrawNumber-2];
+  var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
+  var mySuitNumberIndex = suitNum[mySuitNumber-1];
+  var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
+  // console.log(generatedArray);
+  return generatedArray;
 }
 
 
@@ -136,6 +187,17 @@ function countInArray(array, item) {
 
 //mike
 //2 pair-easy
+Player.prototype.twoPair = function () {
+  var myPair=0;
+  for (var i=0, i<this.totalHand.length; i+=1) {
+    if (totalHand[i]===totalHand[i+1]) {
+      myPair +=1;
+    }
+    if (myPair ===1) {
+      return 1;
+    }
+  }
+}
 
 //3 of a kind-easy (or pair/three/four of a kind) returns priority value as an integer
 //returns a 0 if none of these conditions are found
@@ -190,8 +252,21 @@ Player.prototype.strait = function () {
   }
 };
 
-//dan
-//royal flush-easy
+//royal flush-medium-dan
+Player.prototype.royalFlush = function() {
+  for (var i = 0; i < totalHand.length-1; i++) {
+    var isStrait =0;
+    var isSuit =0;
+    if ((totalHand[i].whatValue()=10) && (totalHand[i+1] - totalHand[i] === 1)) {
+      isStrait +=1;
+      isSuit += totalHand[i].whatSuit();
+    }
+    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
+      return 10
+    }
+
+  }
+}
 
 //strait flush-hard
 Player.prototype.straitFlush = function () {
@@ -254,6 +329,18 @@ Player.prototype.highCard= function () {
 //dan
 //document ready
 $(document).ready(function() {
+  $("#theButton").click(function() {
+
+
+
+    draw();
+    console.log(draw());
+    // // currentCard = new Card(myDrawNumberIndex, myDrawNumberIndex2,mySuitNumberIndex);
+    // console.log(currentCard);
+    // currentCard.isOnTable();
+    //
+    // cardOnTable.push(currentCard);
+    // console.log(cardOnTable);
 
   });
 });
