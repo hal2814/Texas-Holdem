@@ -14,7 +14,7 @@ body {
 }
 
 .cardback{
-  
+
 }
 
 .well{
@@ -30,4 +30,20 @@ body {
   display: block;
   margin: auto;
   width: 600px;
+}
+
+#betButton{
+  display: none;
+}
+#betButton2{
+  display: none;
+}
+#betButton3{
+  display: none;
+}
+#handButton{
+  display: none;
+}
+#newHand{
+  display: none;
 }

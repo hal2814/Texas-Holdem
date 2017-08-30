@@ -112,7 +112,7 @@ function callAgain(putOnTableFunction,bool){
 
 function draw(){
 
-  var myDrawNumber = Math.floor(Math.random() * (4 - 2))+ 2;
+  var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
   var myDrawNumberIndex = cardNum[myDrawNumber-2];
   var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
@@ -378,15 +378,15 @@ $(document).ready(function() {
       hole1Card =thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
     }
     while(hole1Card);
-    console.log(thePlayer);
-    console.log(thePlayer.yourHand);
+
     var hole2Card;
     do
     {
       hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
     }
     while(!hole2Card);
-    console.log(thePlayer.yourHand);
+    $("#drawButton").toggle();
+    $("#betButton").toggle();
   });
   $("#betButton").click(function() {
     var flop1Card;
@@ -413,7 +413,8 @@ $(document).ready(function() {
     while(!flop3Card);
 
     $(".cardback").slideToggle();
-    console.log(thePlayer.tableCards);
+    $("#betButton").toggle();
+    $("#betButton2").toggle();
   });
   $("#betButton2").click(function() {
     var turnCard;
@@ -425,6 +426,8 @@ $(document).ready(function() {
     while(!turnCard);
 
     $("#cardbackTurn").slideToggle();
+    $("#betButton2").toggle();
+    $("#betButton3").toggle();
   });
   $("#betButton3").click(function() {
     var riverCard;
@@ -436,30 +439,36 @@ $(document).ready(function() {
     while(!riverCard);
 
     $("#cardbackRiver").slideToggle();
-    console.log(thePlayer.totalHand);
+    $("#betButton3").toggle();
+    $("#handButton").toggle();
   });
   $("#handButton").click(function() {
     // event.preventdefault();
     if(thePlayer.matchVictory()===2){
       console.log("One Pair");
-      $("#ouput").text("One Pair");
+      $("#sidebar").append("<h3>One Pair</h3>");
     }
     if(thePlayer.matchVictory()===3){
       console.log("Two Pair");
-      $("#ouput").text("Two Pair");
+      $("#sidebar").append("<h3>Two Pair</h3>");
     }
     if(thePlayer.matchVictory()===4){
       console.log("Three of a kind");
-      $("#ouput").text("Three of a kind");
+      $("#sidebar").append("<h3>Three of a kind</h3>");
     }
     if(thePlayer.matchVictory()===7){
       console.log("Full House");
-      $("#ouput").text("Full House");
+      $("#sidebar").append("<h3>Full House</h3>");
     }
     if(thePlayer.matchVictory()===8){
       console.log("Four of a kind");
-      $("#ouput").text("Four of a kind");
+      $("#sidebar").append("<h3>Four of a kind</h3>");
     }
+    $("#newHand").toggle();
+    $("#handButton").toggle();
+  });
+  $("#newHand").click(function() {
+    window.location.reload()
   });
 });
 
