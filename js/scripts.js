@@ -29,8 +29,12 @@ function Bet(pool){
 }
 
 Bet.prototype.placeBet = function (amount) {
-  this.pool -= amount;
-  this.currentBet +=amount;
+  if(!(this.pool <= 0)){
+    this.pool -= amount;
+    this.currentBet +=amount;
+  }else{
+    alert("You can't bet any more, you don't have that kind of cash!")
+  }
 };
 
 //winMod is the return of the win condition
@@ -40,12 +44,24 @@ Bet.prototype.betResult = function (winMod) {
   }else{
     this.pool += this.currentBet * winMod;
   }
+  this.currentBet = 0;
 };
 
-Bet.prototype.showPool = function (displayTo){
+Bet.prototype.showPool = function (displayTo,whatBet){
   var pool = this.pool;
+  var bet = this.currentBet;
+  $(".betArea").replaceWith(" ");
   $("#"+displayTo).append("<span class='betArea'><h2>$ "+pool+".00</h2></span>");
+  $(".betDis").replaceWith(" ");
+  $("#"+whatBet).append("<span class='betDis'><h2>$ "+bet+".00</h2></span>");
 }
+
+Bet.prototype.outOfMoney = function () {
+  if(this.pool <=0){
+    alert("You ran out of money. ...here, have some pity cash");
+    this.pool = 10;
+  }
+};
 
 //return suit value
 Card.prototype.whatSuit = function() {
@@ -293,18 +309,23 @@ Player.prototype.joinCpuCards = function () {
 //document ready
 $(document).ready(function() {
   var thePlayer;
-  var yourBet;
+  var yourBet = new Bet(100);
   $("#bet5").click(function() {
-
+    yourBet.placeBet(5);
+    yourBet.showPool("betSection","betDisplay");
   });
   $("#bet10").click(function() {
+    yourBet.placeBet(10);
+    yourBet.showPool("betSection","betDisplay");
   });
   $("#bet20").click(function() {
+    yourBet.placeBet(20);
+    yourBet.showPool("betSection","betDisplay");
   });
   $("#drawButton").click(function() {
     thePlayer = new Player();
-    yourBet = new Bet(100);
-    yourBet.showPool("betSection");
+
+    yourBet.showPool("betSection","betDisplay");
     console.log(thePlayer);
     var hole1Card;
     do
@@ -398,6 +419,10 @@ $(document).ready(function() {
   });
   $("#handButton").click(function() {
     // event.preventdefault();
+    yourBet.betResult(thePlayer.matchVictory(thePlayer.totalHand));
+    yourBet.showPool("betSection","betDisplay");
+    yourBet.outOfMoney();
+    yourBet.showPool("betSection","betDisplay");
     if(thePlayer.matchVictory(thePlayer.totalHand)===2){
       console.log("One Pair");
       $("#handArea").append("<span id='handSection'><h3>One Pair</h3></span>");

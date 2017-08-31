@@ -1,6 +1,8 @@
 h1 {
   text-align: center;
   color: white;
+  font-family: fantasy;
+  font-weight: bold;
 }
 
 img{
@@ -22,6 +24,7 @@ h2{
   font-weight: bold;
   font-style: italic;
   font-family: fantasy;
+  text-align: center;
 }
 .col-md-12{
   text-align: center;
@@ -55,6 +58,7 @@ h2{
 span h2{
   color: yellow;
 }
+
 
 #homeTable {
   display: block;
