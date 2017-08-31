@@ -23,4 +23,6 @@ Description: Game simulates Texas Holdem style video poker. You win money based 
 ![Alt text](/img/program.png?raw=true "Screenshot")
 
 
+GitHub page: https://hal2814.github.io/Texas-Holdem/
+
 copyright Nate McGregor, Dan Kiss Epicodus 2017
