@@ -341,14 +341,23 @@ $(document).ready(function() {
   $("#bet5").click(function() {
     yourBet.placeBet(5);
     yourBet.showPool("betSection","betDisplay");
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
   });
   $("#bet10").click(function() {
     yourBet.placeBet(10);
     yourBet.showPool("betSection","betDisplay");
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
   });
   $("#bet20").click(function() {
     yourBet.placeBet(20);
     yourBet.showPool("betSection","betDisplay");
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
   });
   $("#drawButton").click(function() {
     thePlayer = new Player();
@@ -386,6 +395,9 @@ $(document).ready(function() {
     $(".cardback").slideToggle();
     $("#betButton").toggle();
     $("#betButton2").toggle();
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
   });
   $("#betButton2").click(function() {
     var turnCard;
@@ -394,6 +406,9 @@ $(document).ready(function() {
     $("#cardbackTurn").slideToggle();
     $("#betButton2").toggle();
     $("#betButton3").toggle();
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
   });
   $("#betButton3").click(function() {
     var riverCard;
@@ -430,9 +445,9 @@ $(document).ready(function() {
     $(".cardback").slideToggle();
     $(".playerHand").toggle();
     $(".cpuHand").toggle();
-    $("#bet5").toggle();
-    $("#bet10").toggle();
-    $("#bet20").toggle();
+    $("#bet5").hide();
+    $("#bet10").hide();
+    $("#bet20").hide();
 
 
     console.log(thePlayer);
