@@ -82,15 +82,6 @@ function cardValueArr(array) {
   return totalHandValues;
 };
 
-//if function(arg) returns false it will call again
-function callAgain(putOnTableFunction,bool){
-  if(!bool){
-    return callAgain(putOnTableFunction,bool);
-  }else{
-    putOnTableFunction;
-  }
-}
-
 //dan
 //draw function - return array with 2 values (suit,number)
 //requires isOnTable() function
