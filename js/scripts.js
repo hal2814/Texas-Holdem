@@ -34,9 +34,18 @@ Bet.prototype.placeBet = function (amount) {
 };
 
 //winMod is the return of the win condition
-Bet.prototype.winBet = function (winMod) {
-  this.pool = this.currentBet * winMod;
+Bet.prototype.betResult = function (winMod) {
+  if(winMod === 0){
+    this.pool -= this.currentBet;
+  }else{
+    this.pool += this.currentBet * winMod;
+  }
 };
+
+Bet.prototype.showPool = function (displayTo){
+  var pool = this.pool;
+  $("#"+displayTo).append("<span class='betArea'><h2>$ "+pool+".00</h2></span>");
+}
 
 //return suit value
 Card.prototype.whatSuit = function() {
@@ -91,11 +100,6 @@ function displayCard(draw,displayTo){
   var num = draw[1];
   $("#"+displayTo).append("<span class='cardArea'><img src='img/"+suit+"_"+num+".png'></span>");
   console.log(displayTo);
-}
-
-Bet.prototype.showPool(displayTo,pool){
-  pool = this.pool;
-  $("#"+displayTo).append("<span class='betArea'>"+pool+"</span>");
 }
 
 //checks if input values (array of suit/num), match a card object that exists already
@@ -289,8 +293,18 @@ Player.prototype.joinCpuCards = function () {
 //document ready
 $(document).ready(function() {
   var thePlayer;
+  var yourBet;
+  $("#bet5").click(function() {
+
+  });
+  $("#bet10").click(function() {
+  });
+  $("#bet20").click(function() {
+  });
   $("#drawButton").click(function() {
     thePlayer = new Player();
+    yourBet = new Bet(100);
+    yourBet.showPool("betSection");
     console.log(thePlayer);
     var hole1Card;
     do
@@ -323,6 +337,9 @@ $(document).ready(function() {
     $("#betButton").toggle();
     $(".playerHand").toggle();
     $(".cpuHand").toggle();
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
 
   });
   $("#betButton").click(function() {
@@ -404,6 +421,7 @@ $(document).ready(function() {
     $("#newHand").toggle();
     $("#handButton").toggle();
   });
+  //reset
   $("#newHand").click(function() {
     $(".cardArea").replaceWith(" ");
     $("#handSection").replaceWith("");
@@ -412,6 +430,9 @@ $(document).ready(function() {
     $(".cardback").slideToggle();
     $(".playerHand").toggle();
     $(".cpuHand").toggle();
+    $("#bet5").toggle();
+    $("#bet10").toggle();
+    $("#bet20").toggle();
 
 
     console.log(thePlayer);

@@ -52,6 +52,9 @@ h2{
   background-color: grey;
 }
 
+span h2{
+  color: yellow;
+}
 
 #homeTable {
   display: block;
@@ -75,10 +78,20 @@ h2{
   display: none;
 }
 
-#cpu1{
+#bet5{
+  display: none;
+}
+#bet10{
+  display: none;
+}
+#bet20{
+  display: none;
+}
+
+/*#cpu1{
   display: none;
 }
 
 #cpu2{
   display: none;
-}
+}*/
