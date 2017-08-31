@@ -318,8 +318,10 @@ Player.prototype.straitFlush = function () {
       isSuit += totalHand[i].whatSuit();
     }
     if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
-      return 5
+      return 5;
       //alert("Strait")
+    }else{
+      return 0;
     }
   }
 };
