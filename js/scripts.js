@@ -20,9 +20,23 @@ function Player(){
   this.tableCards = []; //3 cards on table
   this.yourHand = []; //your 2 cards
   this.totalHand = []; //your hand + table hand
-  this.cpuHand = [];
-  this.totalCpuHand = [];
+  // this.cpuHand = [];
+  // this.totalCpuHand = [];
 }
+function Bet(pool){
+  this.pool = pool;
+  this.currentBet = 0;
+}
+
+Bet.prototype.placeBet = function (amount) {
+  this.pool -= amount;
+  this.currentBet +=amount;
+};
+
+//winMod is the return of the win condition
+Bet.prototype.winBet = function (winMod) {
+  this.pool = this.currentBet * winMod;
+};
 
 //return suit value
 Card.prototype.whatSuit = function() {
@@ -77,6 +91,11 @@ function displayCard(draw,displayTo){
   var num = draw[1];
   $("#"+displayTo).append("<span class='cardArea'><img src='img/"+suit+"_"+num+".png'></span>");
   console.log(displayTo);
+}
+
+Bet.prototype.showPool(displayTo,pool){
+  pool = this.pool;
+  $("#"+displayTo).append("<span class='betArea'>"+pool+"</span>");
 }
 
 //checks if input values (array of suit/num), match a card object that exists already
@@ -280,12 +299,26 @@ $(document).ready(function() {
     }
     while(hole1Card);
 
+    // var cpu1Card;
+    // do
+    // {
+    //   cpu1Card =thePlayer.putCardOnTable(draw(),"cpu1",thePlayer.cpuHand,thePlayer.totalCpuHand);
+    // }
+    // while(!cpu1Card);
+
     var hole2Card;
     do
     {
       hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand,thePlayer.totalHand);
     }
     while(!hole2Card);
+
+    // var cpu2Card;
+    // do
+    // {
+    //   cpu2Card = thePlayer.putCardOnTable(draw(),"cpu2",thePlayer.cpuHand,thePlayer.totalCpuHand);
+    // }
+    // while(!cpu2Card);
     $("#drawButton").toggle();
     $("#betButton").toggle();
     $(".playerHand").toggle();
