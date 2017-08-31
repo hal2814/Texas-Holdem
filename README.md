@@ -4,6 +4,9 @@ Authors: Nate McGregor, Dan Kiss
 Description: Game simulates Texas Holdem style video poker. You win money based on the combination of your cards. You start with a pot of $100.00, and may bet $5,$10, or $20 at a time for each round.
 
 
+Known bugs:
+-Straight that includes an ace as a "1" value does not work.
+-Royal Flush is not finished.
 
 | Spec(pot is $100) | bet input | expected pot output |
 |------|-------|--------|
