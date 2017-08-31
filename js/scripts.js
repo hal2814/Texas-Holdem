@@ -3,8 +3,10 @@
 
 //card deck arrays- 2 arrays (suit , number)
 var suitNum = [1,2,3,4];
+// var suitNum = [1,2];
 var suit = ["Clubs","Diamonds","Hearts","Spades"];
 var cardNum = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+// var cardNum = [2,3,4,5,6,7,8];
 var face = ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 
 
@@ -42,6 +44,13 @@ function cardValueArr(array) {
   return totalHandValues;
 };
 
+function suitValueArr(array) {
+  var totalHandSuits = [];
+  for(var i=0; i<array.length; ++i) {
+    totalHandSuits.push(array[i].whatSuit());
+  }
+}
+
 //if function(arg) returns false it will call again
 function callAgain(putOnTableFunction,bool){
   if(!bool){
@@ -58,9 +67,9 @@ function callAgain(putOnTableFunction,bool){
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
 function draw(){
 
-  var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
+  var myDrawNumber = Math.floor(Math.random() * (9 - 2))+ 2;
   var myDrawNumberIndex = cardNum[myDrawNumber-2];
-  var mySuitNumber = Math.floor(Math.random() *(5 - 1)+ 1);
+  var mySuitNumber = Math.floor(Math.random() *(2 - 1)+ 1);
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
   var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
   // console.log(generatedArray);
@@ -187,7 +196,15 @@ Player.prototype.matchVictory= function () {
   isMatch.sort();
   if(cmpArr(isMatch,[4,4,4,4])){
     return 8;//four of a kind
-  }else if(cmpArr(isMatch,[2,2,3,3,3])){
+  }
+  else if(this.straitFlush() === 9) {
+    return 9;
+  }
+  else if(this.strait() === 5) {
+    return 5;
+  }
+
+  else if(cmpArr(isMatch,[2,2,3,3,3])){
     return 7;//full house
   }else if(cmpArr(isMatch,[3,3,3])){
     return 4;//3 of a kind
@@ -195,7 +212,29 @@ Player.prototype.matchVictory= function () {
     return 3;//two pair
   }else if(cmpArr(isMatch,[2,2])){
     return 2;//one pair
-  }else{
+  }
+  //need to add in the straight here
+  // else if(this.strait() === 5) {
+  //   return 5;
+  // }
+
+  // else if(Player.straitFlush === 9) {
+  //   return 9;
+  // }
+  // Player.prototype.matchArray = function () {
+  //   var cardCount = 0;
+  //   var matchArray =[];
+  //   var totalHandValues = cardValueArr(this.totalHand);
+  //   for(var i=0;i<totalHandValues.length;++i){
+  //     cardCount = countInArray(totalHandValues,totalHandValues[i]);
+  //     if(cardCount >1){
+  //       matchArray.push(cardCount);
+  //     }
+  //   }
+  //   return matchArray.sort();
+  // };
+
+  else{
     return 0;
   }
 };
@@ -205,8 +244,10 @@ Player.prototype.matchVictory= function () {
 //strait-hard
 Player.prototype.strait = function () {
   var isStrait = 0;
-  for(var i =0; i<totalHand.length-1;++i){
-    if((totalHand[i]-totalHand[i+1]) ===1){
+  var totalHandValues = cardValueArr(this.totalHand);
+  totalHandValues.sort();
+  for(var i =0; i<totalHandValues.length-1;++i){
+    if((totalHandValues[i+1]-totalHandValues[i]) ===1){
       isStrait +=1;
     }
   }
@@ -233,22 +274,41 @@ Player.prototype.royalFlush = function() {
 }
 
 //strait flush-hard
-Player.prototype.straitFlush = function () {
-  var isStrait = 0;
-  var isSuit = 0;
-  for(var i =0; i<totalHand.length-1;++i){
-    if((totalHand[i]-totalHand[i+1]) ===1){
-      isStrait +=1;
-      isSuit += totalHand[i].whatSuit();
+// Player.prototype.straitFlush = function () {
+//   var isStrait = 0;
+//   var isSuit = 0;
+//   var totalHandValues = cardValueArr(this.totalHand);
+//   totalHandValues.sort();
+  // for(var i =0; i<totalHand.length-1;++i){
+  //   if((totalHand[i]-totalHand[i+1]) ===1){
+  //     isStrait +=1;
+  //     isSuit += totalHand[i].whatSuit();
+  //   }
+  //   if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()) {
+  //     return 9;
+  //     //alert("")
+  //   }else{
+  //     return 0;
+  //   }
+  // }
+  Player.prototype.straitFlush = function () {
+    var isSuitedStrait = 0;
+    var totalHandValues = cardValueArr(this.totalHand);
+    var totalHandSuits = suitValueArr(this.totalHand);
+    console.log(totalHandSuits);
+    totalHandValues.sort();
+    for ( var i=0; i<totalHandValues.length; i+=1) {
+      if(((totalHandValues[i]-totalHandValues[i+1]) ===1) && (totalHandSuits[i] === totalHandSuits[i+1])) {
+        isSuitedStrait +=1;
+      }
     }
-    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
-      return 5;
-      //alert("Strait")
-    }else{
-      return 0;
+    if (isSuitedStrait >= 5) {
+      return 9
     }
   }
-};
+// };
+
+
 
 //high card-medium
 Player.prototype.highCard= function () {
@@ -363,6 +423,16 @@ $(document).ready(function() {
       console.log("Four of a kind");
       $("#handSection").append("<h3>Four of a kind</h3>");
     }
+    if(thePlayer.matchVictory()===5)
+    {
+      console.log("Straight");
+      $("#handSection").append("<h3>Straight</h3>");
+    }
+    if(thePlayer.matchVictory()===9)
+    {
+      console.log("Straight");
+      $("#handSection").append("<h3>Straight Flush</h3>");
+    };
     $("#newHand").toggle();
     $("#handButton").toggle();
   });
