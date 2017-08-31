@@ -363,11 +363,6 @@ $(document).ready(function() {
     while(hole1Card);
     var hole2Card;
     whileDraw(thePlayer,hole2Card,"hole2",thePlayer.yourHand,thePlayer.totalHand);
-    // do
-    // {
-    //   hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand,thePlayer.totalHand);
-    // }
-    // while(!hole2Card);
 
     $("#drawButton").toggle();
     $("#betButton").toggle();
@@ -381,27 +376,12 @@ $(document).ready(function() {
   $("#betButton").click(function() {
     var flop1Card;
     whileDraw(thePlayer,flop1Card,"flop1",thePlayer.tableCards,thePlayer.totalHand);
-    // do
-    // {
-    //   flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards,thePlayer.totalHand);
-    // }
-    // while(!flop1Card);
 
     var flop2Card;
     whileDraw(thePlayer,flop2Card,"flop2",thePlayer.tableCards,thePlayer.totalHand);
-    // do
-    // {
-    //   flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards,thePlayer.totalHand);
-    // }
-    // while(!flop2Card);
 
     var flop3Card;
     whileDraw(thePlayer,flop3Card,"flop3",thePlayer.tableCards,thePlayer.totalHand);
-    // do
-    // {
-    //   flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards,thePlayer.totalHand);
-    // }
-    // while(!flop3Card);
 
     $(".cardback").slideToggle();
     $("#betButton").toggle();
@@ -409,12 +389,7 @@ $(document).ready(function() {
   });
   $("#betButton2").click(function() {
     var turnCard;
-
-    do
-    {
-      turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards,thePlayer.totalHand);
-    }
-    while(!turnCard);
+    whileDraw(thePlayer,turnCard,"turn",thePlayer.tableCards,thePlayer.totalHand);
 
     $("#cardbackTurn").slideToggle();
     $("#betButton2").toggle();
@@ -422,12 +397,7 @@ $(document).ready(function() {
   });
   $("#betButton3").click(function() {
     var riverCard;
-
-    do
-    {
-      riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards,thePlayer.totalHand);
-    }
-    while(!riverCard);
+    whileDraw(thePlayer,riverCard,"river",thePlayer.tableCards,thePlayer.totalHand);
 
     $("#cardbackRiver").slideToggle();
     $("#betButton3").toggle();
