@@ -51,65 +51,11 @@ function callAgain(putOnTableFunction,bool){
   }
 }
 
-// var cardOnTable =[];
-// var coordinate;
-// //dan
-// //function to compare draw if card is on table -takes Card object as arg
-// //returns true if card is on table, false if card has not been drawn
-// Card.prototype.isOnTable = function (draw) {
-//   cordinate = [this.value, this.suit]
-//   this.value
-//
-// }
-//   cardOnTable.length;
-//   console.log(cardOnTable.length);
-//   console.log(this.value);
-//   // console.log(this.face);
-//   console.log(this.suit);
-//
-//   // console.log(cardOnTable[0].value);
-//
-//
-//   for (var i = 0; i < cardOnTable.length-1; i++) {
-//     if
-//     ((this.value !== cardOnTable[i].value))
-//     // && (this.suit !== cardOnTable[i].suit))
-//     {
-//       console.log("if");
-//
-//       console.log(card.value);
-//       console.log(cardOnTable[i].value);
-//       console.log(this.suit);
-//       console.log(cardOnTable[i].suit);
-//       // drawNumber();
-//       // drawSuit();
-//       // new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
-//     } else if
-//     // ((currentCard.value && currentCard.suit) === (cardOnTable[i].value && cardOnTable[i].suit))
-//     ((this.value === cardOnTable[i].value))
-//     // && (this.suit === cardOnTable[i].suit))
-//     {
-//       // currentCard = new Card(myDrawNumberIndex,myDrawNumberIndex2,mySuitNumberIndex);
-//       // i =0;
-//       console.log("if2");
-//     } else {
-//       alert("isOnTable test passed");
-//       return;
-//     }
-//   }
-//
-// }
-
-
-
 //dan
 //draw function - return array with 2 values (suit,number)
 //requires isOnTable() function
 //draw will draw 2 random numbers suit(1,4),number(2,14) ---if draw
 //is on table then draw again. if not on table then return array of 2 numbers (suit,number)
-// var numMinDraw=2;
-// var numMaxDraw=15;
-
 function draw(){
 
   var myDrawNumber = Math.floor(Math.random() * (15 - 2))+ 2;
@@ -123,15 +69,12 @@ function draw(){
   return generatedArray;
 }
 
-
-
-
 //nate
 //displays the picture of card takes array as arg with 2 ints (suit,cardNumber)
 function displayCard(draw,displayTo){
   var suit = draw[0];
   var num = draw[1];
-  $("#"+displayTo).append("<img src='img/"+suit+"_"+num+".png'>");
+  $("#"+displayTo).append("<span class='cardArea'><img src='img/"+suit+"_"+num+".png'></span>");
   console.log(displayTo);
 }
 
@@ -182,12 +125,10 @@ Player.prototype.putCardOnTable = function (draw,displayTo,array) {
   }
 }
 
-
 //winning condition (example: 2 pair)
 function winning(player){
 
 }
-
 
 //used to count items in the array (aka see how many times a certain card appears in an array for pair, 3 of a kind, etc.)
 function countInArray(array, item) {
@@ -217,22 +158,6 @@ function countInArray(array, item) {
 //Strait Flush - 9
 //Royal Flush - 10
 
-
-//mike
-//2 pair-easy
-// Player.prototype.twoPair = function () {
-//   var myPair=0;
-//   for (var i=0, i<this.totalHand.length; i+=1) {
-//     if (totalHand[i]===totalHand[i+1]) {
-//       myPair +=1;
-//     }
-//     if (myPair ===1) {
-//       return 1;
-//     }
-//   }
-// }
-
-//3 of a kind-easy (or pair/three/four of a kind) returns priority value as an integer
 //returns a 0 if none of these conditions are found
 Player.prototype.matchArray = function () {
   var cardCount = 0;
@@ -275,7 +200,6 @@ Player.prototype.matchVictory= function () {
   }
 };
 
-//mike
 //flush-medium
 
 //strait-hard
@@ -325,33 +249,6 @@ Player.prototype.straitFlush = function () {
     }
   }
 };
-
-
-// //full house-medium
-// Player.prototype.twoThreeFour = function () {
-//   var currentCard;
-//   var cardsThatMatch = [];
-//   for(var i=0;i<this.totalHand.length;++i){
-//     currentCard = this.totalHand[i];
-//     for(var j=0;j<this.totalHand.length;++j){
-//       if(currentCard === this.totalHand[j] && j!==i){
-//         var cardsThatMatch+i.push(this.totalHand[j]);
-//       }
-//     }
-//   }
-//   //needs to differentiate bewteen 2 pair, and 4 of the same
-//   if(cardsThatMatch){
-//     return 8;
-//     //alert("Four of a kind");
-//   }else if(cardsThatMatchCount===3){
-//     return 4;
-//     //alert("Three of a kind");
-//   }else if(cardsThatMatchCount===2){
-//     return 2;
-//     //alert("Pair")
-//   }
-// };
-
 
 //high card-medium
 Player.prototype.highCard= function () {
@@ -448,29 +345,36 @@ $(document).ready(function() {
     // event.preventdefault();
     if(thePlayer.matchVictory()===2){
       console.log("One Pair");
-      $("#sidebar").append("<h3>One Pair</h3>");
+      $("#handSection").append("<h3>One Pair</h3>");
     }
     if(thePlayer.matchVictory()===3){
       console.log("Two Pair");
-      $("#sidebar").append("<h3>Two Pair</h3>");
+      $("#handSection").append("<h3>Two Pair</h3>");
     }
     if(thePlayer.matchVictory()===4){
       console.log("Three of a kind");
-      $("#sidebar").append("<h3>Three of a kind</h3>");
+      $("#handSection").append("<h3>Three of a kind</h3>");
     }
     if(thePlayer.matchVictory()===7){
       console.log("Full House");
-      $("#sidebar").append("<h3>Full House</h3>");
+      $("#handSection").append("<h3>Full House</h3>");
     }
     if(thePlayer.matchVictory()===8){
       console.log("Four of a kind");
-      $("#sidebar").append("<h3>Four of a kind</h3>");
+      $("#handSection").append("<h3>Four of a kind</h3>");
     }
     $("#newHand").toggle();
     $("#handButton").toggle();
   });
   $("#newHand").click(function() {
-    window.location.reload()
+    $(".cardArea").replaceWith("");
+    $("#handSection").replaceWith("");
+    $("#cardbackTurn").slideToggle();
+    $("#cardbackRiver").slideToggle();
+    $(".cardback").slideToggle();
+
+    $("#newHand").toggle();
+    $("#drawButton").toggle();
   });
 });
 

@@ -33,6 +33,10 @@ h3{
   background-image: url(../img/banner.jpg);
 }
 
+/*.playerHand{
+  width: 85%;
+  float: center;
+}*/
 
 #homeTable {
   display: block;
