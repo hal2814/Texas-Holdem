@@ -11,7 +11,6 @@ var face = ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 //card object
 function Card(value,suit){
   this.value = value;
-  //this.face = face;
   this.suit = suit;
 }
 
@@ -21,6 +20,8 @@ function Player(){
   this.tableCards = []; //3 cards on table
   this.yourHand = []; //your 2 cards
   this.totalHand = []; //your hand + table hand
+  this.cpuHand = [];
+  this.totalCpuHand = [];
 }
 
 //return suit value
@@ -64,8 +65,8 @@ function draw(){
   var mySuitNumberIndex = suitNum[mySuitNumber-1];
   var generatedArray = [mySuitNumberIndex,myDrawNumberIndex];
   // console.log(generatedArray);
-  console.log("draw: ");
-  console.log(generatedArray);
+  // console.log("draw: ");
+  // console.log(generatedArray);
   return generatedArray;
 }
 
@@ -94,28 +95,25 @@ Card.prototype.checkForTableCard = function (draw) {
 //create card object, display, push to array in player object
 //requires draw() function, and displayCard() function
 //array gets the value of member of Player object
-Player.prototype.putCardOnTable = function (draw,displayTo,array) {
+Player.prototype.putCardOnTable = function (draw,displayTo,array,totalHand) {
   var suitNum = draw[0];
   var cardNum = draw[1];
   var count = 0;
   // var newCard;
   //special case: for first card (aka poker table is empty)
-  if(!this.totalHand.toString()){
+  if(!totalHand.toString()){
     var newCard = new Card(cardNum,suitNum);
-    console.log(newCard);
-    console.log(array);
     array.push(newCard);
-    this.totalHand.push(newCard);
+    totalHand.push(newCard);
     displayCard(draw,displayTo);
-    console.log(displayTo);
   }
-  for(var i=0;i<this.totalHand.length;++i){
-    if(!this.totalHand[i].checkForTableCard(draw)){
+  for(var i=0;i<totalHand.length;++i){
+    if(!totalHand[i].checkForTableCard(draw)){
       count += 1;
-      if(count === this.totalHand.length){
+      if(count === totalHand.length){
         var newCard = new Card(cardNum,suitNum);
         array.push(newCard);
-        this.totalHand.push(newCard);
+        totalHand.push(newCard);
         displayCard(draw,displayTo);
         return true;
       }
@@ -159,10 +157,10 @@ function countInArray(array, item) {
 //Royal Flush - 10
 
 //returns a 0 if none of these conditions are found
-Player.prototype.matchArray = function () {
+Player.prototype.matchArray = function (totalHand) {
   var cardCount = 0;
   var matchArray =[];
-  var totalHandValues = cardValueArr(this.totalHand);
+  var totalHandValues = cardValueArr(totalHand);
   for(var i=0;i<totalHandValues.length;++i){
     cardCount = countInArray(totalHandValues,totalHandValues[i]);
     if(cardCount >1){
@@ -182,8 +180,8 @@ function cmpArr(compare1, compare2) {
 	}
 }
 //takes matchArray function as arg
-Player.prototype.matchVictory= function () {
-  var isMatch = this.matchArray();
+Player.prototype.matchVictory= function (totalHand) {
+  var isMatch = this.matchArray(totalHand);
   isMatch.sort();
   if(cmpArr(isMatch,[4,4,4,4])){
     return 8;//four of a kind
@@ -203,10 +201,10 @@ Player.prototype.matchVictory= function () {
 //flush-medium
 
 //strait-hard
-Player.prototype.strait = function () {
+Player.prototype.strait = function (totalHand) {
   var isStrait = 0;
   for(var i =0; i<totalHand.length-1;++i){
-    if((totalHand[i]-totalHand[i+1]) ===1){
+    if((totalHand[i+1]-totalHand[i]) ===1){
       isStrait +=1;
     }
   }
@@ -217,7 +215,7 @@ Player.prototype.strait = function () {
 };
 
 //royal flush-medium-dan
-Player.prototype.royalFlush = function() {
+Player.prototype.royalFlush = function(totalHand) {
   for (var i = 0; i < totalHand.length-1; i++) {
     var isStrait =0;
     var isSuit =0;
@@ -233,7 +231,7 @@ Player.prototype.royalFlush = function() {
 }
 
 //strait flush-hard
-Player.prototype.straitFlush = function () {
+Player.prototype.straitFlush = function (totalHand) {
   var isStrait = 0;
   var isSuit = 0;
   for(var i =0; i<totalHand.length-1;++i){
@@ -251,10 +249,10 @@ Player.prototype.straitFlush = function () {
 };
 
 //high card-medium
-Player.prototype.highCard= function () {
+Player.prototype.highCard= function (totalHand) {
   var justValues = [];
-  for(var i = 0;i<this.totalHand.length;++i){
-    justValues.push(this.totalHand[i].whatValue());
+  for(var i = 0;i<totalHand.length;++i){
+    justValues.push(totalHand[i].whatValue());
   }
   justValues.sort();
 
@@ -262,7 +260,10 @@ Player.prototype.highCard= function () {
   return justValues[justValues.length-1];
 };
 
-
+//will concat 2 arrays into one
+Player.prototype.joinCpuCards = function () {
+  this.totalCpuHand = this.cpuHand.concat(this.tableCards);
+};
 
 //Front End
 //dan
@@ -271,27 +272,31 @@ $(document).ready(function() {
   var thePlayer;
   $("#drawButton").click(function() {
     thePlayer = new Player();
+    console.log(thePlayer);
     var hole1Card;
     do
     {
-      hole1Card =thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand);
+      hole1Card =thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand,thePlayer.totalHand);
     }
     while(hole1Card);
 
     var hole2Card;
     do
     {
-      hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand);
+      hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand,thePlayer.totalHand);
     }
     while(!hole2Card);
     $("#drawButton").toggle();
     $("#betButton").toggle();
+    $(".playerHand").toggle();
+    $(".cpuHand").toggle();
+
   });
   $("#betButton").click(function() {
     var flop1Card;
     do
     {
-      flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards);
+      flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards,thePlayer.totalHand);
     }
     while(!flop1Card);
 
@@ -299,7 +304,7 @@ $(document).ready(function() {
 
     do
     {
-      flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards);
+      flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards,thePlayer.totalHand);
     }
     while(!flop2Card);
 
@@ -307,7 +312,7 @@ $(document).ready(function() {
 
     do
     {
-      flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards);
+      flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards,thePlayer.totalHand);
     }
     while(!flop3Card);
 
@@ -320,7 +325,7 @@ $(document).ready(function() {
 
     do
     {
-      turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards);
+      turnCard = thePlayer.putCardOnTable(draw(),"turn",thePlayer.tableCards,thePlayer.totalHand);
     }
     while(!turnCard);
 
@@ -333,7 +338,7 @@ $(document).ready(function() {
 
     do
     {
-      riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards);
+      riverCard = thePlayer.putCardOnTable(draw(),"river",thePlayer.tableCards,thePlayer.totalHand);
     }
     while(!riverCard);
 
@@ -343,38 +348,43 @@ $(document).ready(function() {
   });
   $("#handButton").click(function() {
     // event.preventdefault();
-    if(thePlayer.matchVictory()===2){
+    if(thePlayer.matchVictory(thePlayer.totalHand)===2){
       console.log("One Pair");
-      $("#handSection").append("<h3>One Pair</h3>");
+      $("#handArea").append("<span id='handSection'><h3>One Pair</h3></span>");
     }
-    if(thePlayer.matchVictory()===3){
+    if(thePlayer.matchVictory(thePlayer.totalHand)===3){
       console.log("Two Pair");
-      $("#handSection").append("<h3>Two Pair</h3>");
+      $("#handArea").append("<span id='handSection'><h3>Two Pair</h3></span>");
     }
-    if(thePlayer.matchVictory()===4){
+    if(thePlayer.matchVictory(thePlayer.totalHand)===4){
       console.log("Three of a kind");
-      $("#handSection").append("<h3>Three of a kind</h3>");
+      $("#handArea").append("<span id='handSection'><h3>Three of a kind</h3></span>");
     }
-    if(thePlayer.matchVictory()===7){
+    if(thePlayer.matchVictory(thePlayer.totalHand)===7){
       console.log("Full House");
-      $("#handSection").append("<h3>Full House</h3>");
+      $("#handArea").append("<span id='handSection'><h3>Full House</h3></span>");
     }
-    if(thePlayer.matchVictory()===8){
+    if(thePlayer.matchVictory(thePlayer.totalHand)===8){
       console.log("Four of a kind");
-      $("#handSection").append("<h3>Four of a kind</h3>");
+      $("#handArea").append("<span id='handSection'><h3>Four of a kind</h3></span>");
     }
     $("#newHand").toggle();
     $("#handButton").toggle();
   });
   $("#newHand").click(function() {
-    $(".cardArea").replaceWith("");
+    $(".cardArea").replaceWith(" ");
     $("#handSection").replaceWith("");
     $("#cardbackTurn").slideToggle();
     $("#cardbackRiver").slideToggle();
     $(".cardback").slideToggle();
+    $(".playerHand").toggle();
+    $(".cpuHand").toggle();
 
+
+    console.log(thePlayer);
     $("#newHand").toggle();
     $("#drawButton").toggle();
+    thePlayer = new Player();
   });
 });
 

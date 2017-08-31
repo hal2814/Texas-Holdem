@@ -13,6 +13,29 @@
         <h1>Texas Holdem</h1>
       </div>
       <div class="row">
+        <div class="col-md-12">
+          <h2>Computer's hand</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-2">
+          <div class="well cpuHand">
+            <div id="cpu1">
+              <img class="cardback2 cpuHand" src="img/cardback.jpg">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="well cpuHand">
+            <div id="cpu2">
+              <img class="cardback2 cpuHand" src="img/cardback.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-2">
           <div id="sidebar">
             <button type="button" class="btn btn-danger" id="drawButton">Draw</button>
@@ -23,7 +46,9 @@
             <button type="button" class="btn btn-success" id="newHand">Deal next hand</button>
             <br>
             <h2>Your Best Hand:</h2>
-            <div id="handSection"></div>
+            <div id="handArea">
+
+            </div>
           </div>
         </div>
         <div class="col-md-2">
@@ -59,7 +84,6 @@
         <div class="col-md-2">
           <div class="well">
             <div class="space" id="turn">
-
           </div>
           <div>
             <img id="cardbackTurn" src="img/cardback.jpg">
@@ -79,18 +103,20 @@
       </div>
       <br>
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="well playerHand">
             <div id="hole1"></div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="well playerHand">
             <div id="hole2"></div>
           </div>
+          <h2>Your hand</h2>
         </div>
+
       </div>
     </div>
   </body>

@@ -17,6 +17,15 @@ h3{
   font-weight: bold;
   font-style: italic;
 }
+h2{
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  font-family: fantasy;
+}
+.col-md-12{
+  text-align: center;
+}
 
 .btn{
   width: 100%;
@@ -33,10 +42,16 @@ h3{
   background-image: url(../img/banner.jpg);
 }
 
-/*.playerHand{
-  width: 85%;
-  float: center;
-}*/
+.playerHand{
+  background-color: darkred;
+  display: none;
+}
+
+.cpuHand{
+  display: none;
+  background-color: grey;
+}
+
 
 #homeTable {
   display: block;
