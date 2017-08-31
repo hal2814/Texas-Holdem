@@ -228,7 +228,7 @@ Player.prototype.matchVictory= function (totalHand) {
     return 7;//full house
   }else if(cmpArr(isMatch,[3,3,3])){
     return 4;//3 of a kind
-  }else if(cmpArr(isMatch,[2,2,2,2])){
+  }else if(cmpArr(isMatch,[2,2,2,2])||cmpArr(isMatch,[2,2,2,2,2,2])){
     return 3;//two pair
   }else if(cmpArr(isMatch,[2,2])){
     return 2;//one pair
