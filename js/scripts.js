@@ -82,6 +82,14 @@ function cardValueArr(array) {
   return totalHandValues;
 };
 
+function suitValueArr(array) {
+  var totalHandSuits = [];
+  for(var i=0; i<array.length; ++i) {
+    totalHandSuits.push(array[i].whatSuit());
+  }
+  return totalHandSuits;
+}
+
 //dan
 //draw function - return array with 2 values (suit,number)
 //requires isOnTable() function
@@ -106,7 +114,7 @@ function displayCard(draw,displayTo){
   var suit = draw[0];
   var num = draw[1];
   $("#"+displayTo).append("<span class='cardArea'><img src='img/"+suit+"_"+num+".png'></span>");
-  console.log(displayTo);
+  // console.log(displayTo);
 }
 
 //checks if input values (array of suit/num), match a card object that exists already
@@ -213,10 +221,16 @@ function cmpArr(compare1, compare2) {
 Player.prototype.matchVictory= function (totalHand) {
   var isMatch = this.matchArray(totalHand);
   isMatch.sort();
-  if(cmpArr(isMatch,[4,4,4,4])){
+  if(this.flush(totalHand)===6 && this.strait(totalHand)===5){
+    return 9;//straight flush
+  }else if(cmpArr(isMatch,[4,4,4,4])){
     return 8;//four of a kind
-  }else if(cmpArr(isMatch,[2,2,3,3,3])){
+  }else if((cmpArr(isMatch,[2,2,3,3,3]))||(cmpArr(isMatch,[2,2,2,2,3,3,3]))||(cmpArr(isMatch,[3,3,3,3,3,3]))){
     return 7;//full house
+  }else if(this.flush(totalHand)===6){
+    return 6;
+  }else if(this.strait(totalHand) === 5) {
+    return 5;
   }else if(cmpArr(isMatch,[3,3,3])){
     return 4;//3 of a kind
   }else if(cmpArr(isMatch,[2,2,2,2])||cmpArr(isMatch,[2,2,2,2,2,2])){
@@ -228,37 +242,44 @@ Player.prototype.matchVictory= function (totalHand) {
   }
 };
 
-//flush-medium
-
 //strait-hard
 Player.prototype.strait = function (totalHand) {
-  var isStrait = 0;
-  for(var i =0; i<totalHand.length-1;++i){
-    if((totalHand[i+1]-totalHand[i]) ===1){
+  var isStrait = 1;
+  var totalHandValues = cardValueArr(totalHand);
+  totalHandValues.sort();
+  for(var i =0; i<totalHandValues.length-1;++i){
+    if((totalHandValues[i+1]-totalHandValues[i]) ===1){
       isStrait +=1;
     }
   }
   if(isStrait >= 5){
     return 5
-    //alert("Strait")
   }
 };
 
-//royal flush-medium-dan
-Player.prototype.royalFlush = function(totalHand) {
-  for (var i = 0; i < totalHand.length-1; i++) {
-    var isStrait =0;
-    var isSuit =0;
-    if ((totalHand[i].whatValue()=10) && (totalHand[i+1] - totalHand[i] === 1)) {
-      isStrait +=1;
-      isSuit += totalHand[i].whatSuit();
+Player.prototype.flush = function (totalHand) {
+  var flushArray = suitValueArr(totalHand);
+  var flushCountArr = [];
+  count = countInArray(flushArray,1)
+  var count = 0;
+  for(var i=0;i<flushArray.length;++i){
+    count = countInArray(flushArray,flushArray[i])
+    if(count >4){
+      flushCountArr.push(count);
     }
-    if((isStrait >= 5) && (isSuit/5) ===totalHand[i].whatSuit()){
-      return 10
-    }
-
   }
-}
+  var isFlush = [5,5,5,5,5];
+  var isFlush6 = [6,6,6,6,6,6];
+  var isFlush7 = [7,7,7,7,7,7,7];
+  if(cmpArr(flushCountArr,isFlush)||cmpArr(flushCountArr,isFlush6)||cmpArr(flushCountArr,isFlush7)){
+    return 6;
+  }
+};
+
+// Player.prototype.royalFlush = function (totalHand) {
+//   var cardValArr = [10,11,12,13,14];
+//   if(this.flush(totalHand)===6 && cmpArr())
+// };
 
 //strait flush-hard
 Player.prototype.straitFlush = function (totalHand) {
@@ -295,6 +316,22 @@ Player.prototype.joinCpuCards = function () {
   this.totalCpuHand = this.cpuHand.concat(this.tableCards);
 };
 
+//rank is number of hand rank, hand is a string, array is array in player object
+function displayHand(player,array,rank,hand){
+  if(player.matchVictory(array)===rank){
+    console.log(hand);
+    $("#handArea").append("<span id='handSection'><h3>"+hand+"</h3></span>");
+  }
+}
+
+function whileDraw(player,boolVar,displayTo,hand,totalHand){
+  do
+  {
+    boolVar = player.putCardOnTable(draw(),displayTo,hand,totalHand);
+  }
+  while(!boolVar);
+}
+
 //Front End
 //dan
 //document ready
@@ -324,27 +361,14 @@ $(document).ready(function() {
       hole1Card =thePlayer.putCardOnTable(draw(),"hole1",thePlayer.yourHand,thePlayer.totalHand);
     }
     while(hole1Card);
-
-    // var cpu1Card;
-    // do
-    // {
-    //   cpu1Card =thePlayer.putCardOnTable(draw(),"cpu1",thePlayer.cpuHand,thePlayer.totalCpuHand);
-    // }
-    // while(!cpu1Card);
-
     var hole2Card;
-    do
-    {
-      hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand,thePlayer.totalHand);
-    }
-    while(!hole2Card);
-
-    // var cpu2Card;
+    whileDraw(thePlayer,hole2Card,"hole2",thePlayer.yourHand,thePlayer.totalHand);
     // do
     // {
-    //   cpu2Card = thePlayer.putCardOnTable(draw(),"cpu2",thePlayer.cpuHand,thePlayer.totalCpuHand);
+    //   hole2Card = thePlayer.putCardOnTable(draw(),"hole2",thePlayer.yourHand,thePlayer.totalHand);
     // }
-    // while(!cpu2Card);
+    // while(!hole2Card);
+
     $("#drawButton").toggle();
     $("#betButton").toggle();
     $(".playerHand").toggle();
@@ -356,27 +380,28 @@ $(document).ready(function() {
   });
   $("#betButton").click(function() {
     var flop1Card;
-    do
-    {
-      flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards,thePlayer.totalHand);
-    }
-    while(!flop1Card);
+    whileDraw(thePlayer,flop1Card,"flop1",thePlayer.tableCards,thePlayer.totalHand);
+    // do
+    // {
+    //   flop1Card =thePlayer.putCardOnTable(draw(),"flop1",thePlayer.tableCards,thePlayer.totalHand);
+    // }
+    // while(!flop1Card);
 
     var flop2Card;
-
-    do
-    {
-      flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards,thePlayer.totalHand);
-    }
-    while(!flop2Card);
+    whileDraw(thePlayer,flop2Card,"flop2",thePlayer.tableCards,thePlayer.totalHand);
+    // do
+    // {
+    //   flop2Card =thePlayer.putCardOnTable(draw(),"flop2",thePlayer.tableCards,thePlayer.totalHand);
+    // }
+    // while(!flop2Card);
 
     var flop3Card;
-
-    do
-    {
-      flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards,thePlayer.totalHand);
-    }
-    while(!flop3Card);
+    whileDraw(thePlayer,flop3Card,"flop3",thePlayer.tableCards,thePlayer.totalHand);
+    // do
+    // {
+    //   flop3Card =thePlayer.putCardOnTable(draw(),"flop3",thePlayer.tableCards,thePlayer.totalHand);
+    // }
+    // while(!flop3Card);
 
     $(".cardback").slideToggle();
     $("#betButton").toggle();
@@ -414,26 +439,15 @@ $(document).ready(function() {
     yourBet.showPool("betSection","betDisplay");
     yourBet.outOfMoney();
     yourBet.showPool("betSection","betDisplay");
-    if(thePlayer.matchVictory(thePlayer.totalHand)===2){
-      console.log("One Pair");
-      $("#handArea").append("<span id='handSection'><h3>One Pair</h3></span>");
-    }
-    if(thePlayer.matchVictory(thePlayer.totalHand)===3){
-      console.log("Two Pair");
-      $("#handArea").append("<span id='handSection'><h3>Two Pair</h3></span>");
-    }
-    if(thePlayer.matchVictory(thePlayer.totalHand)===4){
-      console.log("Three of a kind");
-      $("#handArea").append("<span id='handSection'><h3>Three of a kind</h3></span>");
-    }
-    if(thePlayer.matchVictory(thePlayer.totalHand)===7){
-      console.log("Full House");
-      $("#handArea").append("<span id='handSection'><h3>Full House</h3></span>");
-    }
-    if(thePlayer.matchVictory(thePlayer.totalHand)===8){
-      console.log("Four of a kind");
-      $("#handArea").append("<span id='handSection'><h3>Four of a kind</h3></span>");
-    }
+    displayHand(thePlayer,thePlayer.totalHand,0,"High Card");
+    displayHand(thePlayer,thePlayer.totalHand,2,"One Pair");
+    displayHand(thePlayer,thePlayer.totalHand,3,"Two Pair");
+    displayHand(thePlayer,thePlayer.totalHand,4,"Three of a kind");
+    displayHand(thePlayer,thePlayer.totalHand,5,"Straight");
+    displayHand(thePlayer,thePlayer.totalHand,6,"Flush");
+    displayHand(thePlayer,thePlayer.totalHand,7,"Full House");
+    displayHand(thePlayer,thePlayer.totalHand,8,"Four of a kind");
+    displayHand(thePlayer,thePlayer.totalHand,9,"Straight Flush");
     $("#newHand").toggle();
     $("#handButton").toggle();
   });
@@ -457,10 +471,3 @@ $(document).ready(function() {
     thePlayer = new Player();
   });
 });
-
-
-//nate
-//draw button click- draw cards first for player, then draw cards for table
-
-//dan
-//bet button click- continue to see cards on table (show flop, show river)
