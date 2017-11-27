@@ -1,4 +1,4 @@
-Program name: Texas-holdem
+## _Texas-holdem
 Authors: Nate McGregor, Dan Kiss
 
 Description: Game simulates Texas Holdem style video poker. You win money based on the combination of your cards. You start with a pot of $100.00, and may bet $5,$10, or $20 at a time for each round.
