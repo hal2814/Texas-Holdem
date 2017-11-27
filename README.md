@@ -26,6 +26,6 @@ Known bugs:
 ![Alt text](/img/program.png?raw=true "Screenshot")
 
 
-GitHub page: https://hal2814.github.io/Texas-Holdem/
+## To use this program follow the link to the GitHub page here: https://hal2814.github.io/Texas-Holdem/
 
 copyright Nate McGregor, Dan Kiss Epicodus 2017
